@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import axios from 'axios';
 
-const SERVER_URL = '';
+// const SERVER_URL = '';
 
 class Dripples extends Component {
     render() {
         return (
             <div>
-                <Dripple dripple={ this.props.newDrippleOrAllDripplesQuestionMark }/>
-                {/* this link below should be renamed to use different component. */}
-                {/* should be a component that renders a filter form */}
-                {/* user selects filter options and clicks on search */}
-                {/* match dripple with a dripple from another user that has similar matches */}
-                {/* this should remove all dripples in current state and fill with new dripples from multiple users */}
-                <Link to="/search">Send Dripple</Link> 
+                <Dripple allDripples={ this.props.allDripples }/>
+                <ConnectDripple />
             </div>
         )
     }
@@ -23,12 +17,10 @@ class Dripples extends Component {
 
 class Dripple extends Component {
 
-
     _handleClick(i) {
         console.log('this should zoom into clicked dripple', i)
         console.log('display dripple\'s text')
     }
-
 
     render() {
         return (
@@ -41,11 +33,28 @@ class Dripple extends Component {
                             </div>
                 )} */}
                 {/* map() this.props.dripple? for re-rendering new dripples */}
-                {this.props.dripple.map(
+                {this.props.allDripples.map(
                     (dp) => <div key={dp.id} onClick={() => this._handleClick(dp.id)}>
-                                {dp.text} {dp.id}
+                                {dp.title} {dp.content}
                             </div>
                 )}
+            </div>
+        )
+    }
+}
+
+class ConnectDripple extends Component {
+    render() {
+        return (
+            <div>
+                <p>should be a component that renders a filter form</p>
+                <p>user selects filter options and clicks on search</p>
+                <p>
+                    match dripple with a dripple from another user that has similar matches
+                </p>
+                <p>
+                    this should remove all dripples in current state and fill with new dripples from multiple users
+                </p>
             </div>
         )
     }

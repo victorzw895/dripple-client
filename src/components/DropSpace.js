@@ -4,79 +4,69 @@ import SideNavBar from './SideNavBar';
 import Dripples from './Dripples';
 
 
-const SERVER_URL = '';
+const SERVER_URL = 'http://www.localhost:3000/dripples.json';
+// const SERVER_URL = 'http://2e148cc1.ngrok.io/dripples.json'; // TEST purposes
 
 class DropSpace extends Component {
     constructor() {
         super();
         this.state = {
-            dripples: [
-                {text:'I am a dripple', id:1},
-                {text:'I am a dripple', id:2},
-                {text:'I am a dripple', id:3}
-            ]
+            dripples: []
         }
-        // IMPORTANT
-        // this should fetch initial dripples
-        // get request
         // const fetchDripples = () => {
         //     axios.get(SERVER_URL).then((results) => {
-        //         this.setState({dripple: results.data});
+        //         this.setState({dripples: results.data});
         //         // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
         //     })
         // }
         // fetchDripples();
 
-
         this.saveDripple = this.saveDripple.bind( this );
     }
 
-    /* ALL OF THIS IS DUPLICATE, might remove ///////////////////////////////////////////////
-    // constructor() {
-    //     super();
-    //     this.state = {
-    //         // Get each dripple content here
-    //         dripple: [
-    //             {text:'I am a dripple1', id:1},
-    //             {text:'I am a dripple2', id:2},
-    //             {text:'I am a dripple3', id:3}
-    //         ]
-    //     }
-    //     // const fetchDripples = () => {
-    //     //     axios.get(SERVER_URL).then((results) => {
-    //     //         this.setState({dripple: results.data});
-    //     //         // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
-    //     //     })
-    //     // }
-    //     // fetchDripples();
-    // }
-    /////////////////////////////////////////////////////////////////////////////////////*/ 
+    // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
+    componentDidMount() {
+        axios.get(SERVER_URL).then((results) => {
+            this.setState({
+                isLoaded: true,
+                dripples: results.data
+            });
+        },
+        (error) => {
+            this.setState({
+                isLoaded: true,
+                error
+            });
+        })
+    }
 
-    saveDripple(text, id) {
-        this.setState({ dripples: [...this.state.dripples, {text: text, id: id}] })
 
-        console.log('post request', text, id);
+    saveDripple(title, content, user_id) {
+        console.log('post request', title, content, user_id);
 
-        // axios.post(SERVER_URL, {tableColumnDataName: content}).then((response) => {
-
-        // })
-
-        // To re render new dripple. Need to save this to state then pass it down to Dripples component? 
-
-        // to re-render dripples component
-        // this.setState({ state.content: [... this.state.content, result.data] })
+        axios.post(SERVER_URL, {title: title, content: content, user_id: user_id}).then((response) => {
+            console.log(response)
+            this.setState({ dripples: [...this.state.dripples, response.data] })
+        })
     }
 
     render() {
-        return (
-            <div className="body">
-                <SideNavBar />
-                <div className="content">
-                    <Dripples newDrippleOrAllDripplesQuestionMark={ this.state.dripples }/>
-                    <CreateDrop onSubmit={ this.saveDripple }/>
+        const { error, isLoaded, dripples } = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            return (
+                <div className="body">
+                    <SideNavBar />
+                    <div className="content">
+                        <Dripples allDripples={ dripples }/>
+                        <CreateDrop onSubmit={ this.saveDripple }/>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 }
 
@@ -84,31 +74,36 @@ class CreateDrop extends Component {
     constructor() {
         super();
         this.state = {
-            text: '',
-            id: 0 // IMPORTANT, WONT HAVE TO PASSED MANUALLY, taken from database
+            title: '',
+            content: '',
+            user_id: 1 // HARDCODED, NEED TO REPLACE TO CURRENT_USER SESSION
         }
         this._handleSubmit = this._handleSubmit.bind( this );
-        this._handleText = this._handleText.bind( this );
+        this._handleTitle = this._handleTitle.bind( this );
+        this._handleContent = this._handleContent.bind( this );
     }
 
     _handleSubmit(event) {
         event.preventDefault();
-        this.props.onSubmit(this.state.text, this.state.id);
-        this.setState({ text: '', id: 0 });
+        this.props.onSubmit(this.state.title, this.state.content, this.state.user_id);
+        this.setState({ title: '', content: '' });
     }
 
-    // Need to save the value inside textarea to state, so that submit button can take this.state values as parameters when calling parent function
-    _handleText(event) {
-        this.setState({ text: event.target.value, id: 10 })
+    // Need to save the value inside textarea to state first, so that submit button can take this.state values as parameters when calling parent function onSubmit
+    _handleTitle(event) {
+        this.setState({ title: event.target.value })
+    }
+
+    _handleContent(event) {
+        this.setState({ content: event.target.value })
     }
 
     render () {
         return (
             <form onSubmit={ this._handleSubmit } >
-                <textarea onChange={ this._handleText }></textarea>
+                <textarea onChange={ this._handleTitle } value={ this.state.title }></textarea>
+                <textarea onChange={ this._handleContent } value={ this.state.content }></textarea>
                 <input type="submit" value="Save" />
-                {/* when onClick, post to database */}
-                {/* then fetch dripples from Dripple component*/}
                 {/* maybe when fetch new dripple, add new dripple into state with previously populated dripples */}
             </form>
         )

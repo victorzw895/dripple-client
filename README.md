@@ -1,5 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Extra Features to Consider in the future
+- Sorting dripples into their own groups, when there is too many dripples in user space
+
 ## Available Scripts
 
 In the project directory, you can run:
