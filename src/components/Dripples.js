@@ -5,22 +5,13 @@ import axios from 'axios';
 const SERVER_URL = 'http://www.localhost:3000/api/dripples/';
 
 class Dripples extends Component {
-    render() {
-        return (
-            <div>
-                <Dripple allDripples={ this.props.allDripples }/>
-            </div>
-        )
-    }
-}
-
-class Dripple extends Component {
     constructor() {
         super();
         this.state = {
             featured_id: null,
             featured: false
         }
+        this.saveEdit = this.saveEdit.bind( this );
         this._handleClick = this._handleClick.bind( this );
     }
 
@@ -28,12 +19,17 @@ class Dripple extends Component {
         console.log(title, content, dripple_id)
         axios.put(`${SERVER_URL}${dripple_id}.json`, {title: title, content: content, id: dripple_id}).then((response) => {
             console.log(response);
-            // this.setState({ dripples: [...this.state.dripples, response.data] })
+            this.props.updateDripples()
         })
     }
 
     _handleClick(i) {
-        this.setState({featured_id: i, featured: !this.state.featured})
+        const { featured_id, featured } = this.state
+        if (featured_id === null && !featured) {
+            this.setState({featured_id: i, featured: !featured})
+        } else if (featured && featured_id === i ) {
+            this.setState({featured_id: null, featured: !featured})
+        }
         console.log(this.state);
         console.log('this should zoom into clicked dripple', i)
         console.log('display dripple\'s text')
@@ -53,14 +49,6 @@ class Dripple extends Component {
         }
         return (
             <div>
-                { console.log(this.props)}
-                {/* map() dripples from database into divs className=dripple, give unique key and handleclick with i (check tictactoe) */}
-                {/* {this.state.dripple.map(
-                    (dp) => <div key={dp.id} onClick={() => this._handleClick(dp.id)}>
-                                Dripple {dp.id}
-                            </div>
-                )} */}
-                {/* map() this.props.dripple? for re-rendering new dripples */}
                 {this.props.allDripples.map((dp) => 
                     <div className="dripple" key={dp.id}>
                         <div key={dp.id} onClick={() => this._handleClick(dp.id)}>

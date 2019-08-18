@@ -24,6 +24,7 @@ class DropSpace extends Component {
         // fetchDripples();
         this._handleClick = this._handleClick.bind( this );
         this.saveDripple = this.saveDripple.bind( this );
+        this.componentDidMount = this.componentDidMount.bind( this );
     }
 
     // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
@@ -80,7 +81,7 @@ class DropSpace extends Component {
                 <div className="body">
                     <SideNavBar />
                     <div className="content">
-                        <Dripples allDripples={ dripples }/>
+                        <Dripples updateDripples={ this.componentDidMount } allDripples={ dripples }/>
                         <button onClick={ this._handleClick }>New Dripple</button>
                         { createForm }
                     </div>
