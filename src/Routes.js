@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import Search from "./components/Search";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
+import Signup from "./components/Signup";
 
 const Routes = (
   <Router>
@@ -19,6 +20,7 @@ const Routes = (
       <Route exact path="/search" component={Search} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/logout" component={Logout} />
+      <Route exact path="/signup" component={Signup} />
     </div>
   </Router>
 );

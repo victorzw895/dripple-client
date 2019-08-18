@@ -27,6 +27,11 @@ class SideNavBar extends Component {
               <Link to="/login">Log In</Link>
             </li>
           )}
+          {localStorage.getItem("jwt") ? null : (
+            <li>
+              <Link to="/signup">Sign Up</Link>
+            </li>
+          )}
           <li>
             <Link to="/profile">Profile</Link>
           </li>
