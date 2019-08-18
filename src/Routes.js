@@ -13,7 +13,7 @@ const Routes = (
         <div>
             <Route exact path='/' component={ Home } />
             <Route exact path='/dropspace' component={ DropSpace } />
-            <Route exact path='/dripples' component={ Dripples } />
+            {/* <Route exact path='/dripples' component={ Dripples } /> */}
             <Route exact path='/profile' component={ Profile } />
             <Route exact path='/search' component={ Search } />
         </div>

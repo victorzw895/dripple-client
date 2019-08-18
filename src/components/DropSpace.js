@@ -4,8 +4,8 @@ import SideNavBar from './SideNavBar';
 import Dripples from './Dripples';
 
 
-const SERVER_URL = 'http://www.localhost:3000/dripples.json';
-// const SERVER_URL = 'http://2e148cc1.ngrok.io/dripples.json'; // TEST purposes
+const SERVER_URL = 'http://www.localhost:3000/api/dripples.json';
+// const SERVER_URL = 'http://2e148cc1.ngrok.io/api/dripples.json'; // TEST purposes
 
 class DropSpace extends Component {
     constructor() {
@@ -68,7 +68,7 @@ class DropSpace extends Component {
                 </div>
             )
         }
-        //  else if (!displayCreate) {
+        //  else if (!displayCreate) { // seems redundant to add
         //     createForm = null;
         // }
         if (error) {
