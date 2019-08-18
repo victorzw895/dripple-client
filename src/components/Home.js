@@ -8,6 +8,8 @@ class Home extends Component {
                 <SideNavBar />
                 <div className="content">
                     Dripple Coming soon
+                    Login Coming soon
+                    Logout
                 </div>
             </div>
         )
