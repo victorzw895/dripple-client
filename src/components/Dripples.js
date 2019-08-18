@@ -9,7 +9,6 @@ class Dripples extends Component {
         return (
             <div>
                 <Dripple allDripples={ this.props.allDripples }/>
-                <ConnectDripple />
             </div>
         )
     }
@@ -38,6 +37,30 @@ class Dripple extends Component {
                                 {dp.title} {dp.content}
                             </div>
                 )}
+                <EditDripple />
+                <DeleteDripple />
+                <ConnectDripple />
+
+            </div>
+        )
+    }
+}
+
+class EditDripple extends Component {
+    render() {
+        return (
+            <div>
+                <p>Button to edit a bring up similar component/form to CreateDrop</p>
+            </div>
+        )
+    }
+}
+
+class DeleteDripple extends Component {
+    render() {
+        return (
+            <div>
+                <p>Button to remove Dripple</p>
             </div>
         )
     }

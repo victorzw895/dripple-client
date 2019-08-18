@@ -11,7 +11,9 @@ class DropSpace extends Component {
     constructor() {
         super();
         this.state = {
-            dripples: []
+            isLoaded: false,
+            dripples: [],
+            displayCreate: false
         }
         // const fetchDripples = () => {
         //     axios.get(SERVER_URL).then((results) => {
@@ -20,7 +22,7 @@ class DropSpace extends Component {
         //     })
         // }
         // fetchDripples();
-
+        this._handleClick = this._handleClick.bind( this );
         this.saveDripple = this.saveDripple.bind( this );
     }
 
@@ -41,6 +43,7 @@ class DropSpace extends Component {
     }
 
 
+
     saveDripple(title, content, user_id) {
         console.log('post request', title, content, user_id);
 
@@ -50,8 +53,24 @@ class DropSpace extends Component {
         })
     }
 
+    _handleClick() {
+        this.setState({ displayCreate: !this.state.displayCreate })
+    }
+
+
     render() {
-        const { error, isLoaded, dripples } = this.state;
+        const { error, isLoaded, dripples, displayCreate } = this.state;
+        let createForm;
+        if (displayCreate) {
+            createForm = (
+                <div>
+                    <CreateDrop onSubmit={ this.saveDripple } />
+                </div>
+            )
+        }
+        //  else if (!displayCreate) {
+        //     createForm = null;
+        // }
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -62,13 +81,15 @@ class DropSpace extends Component {
                     <SideNavBar />
                     <div className="content">
                         <Dripples allDripples={ dripples }/>
-                        <CreateDrop onSubmit={ this.saveDripple }/>
+                        <button onClick={ this._handleClick }>New Dripple</button>
+                        { createForm }
                     </div>
                 </div>
             )
         }
     }
 }
+
 
 class CreateDrop extends Component {
     constructor() {
