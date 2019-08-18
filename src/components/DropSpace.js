@@ -50,7 +50,7 @@ class DropSpace extends Component {
 
         axios.post(SERVER_URL, {title: title, content: content, user_id: user_id}).then((response) => {
             console.log(response)
-            this.setState({ dripples: [...this.state.dripples, response.data] })
+            this.setState({ dripples: [...this.state.dripples, response.data], displayCreate: false })
         })
     }
 

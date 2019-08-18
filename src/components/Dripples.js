@@ -12,14 +12,29 @@ class Dripples extends Component {
             featured: false
         }
         this.saveEdit = this.saveEdit.bind( this );
+        this.delete = this.delete.bind( this );
         this._handleClick = this._handleClick.bind( this );
     }
 
     saveEdit(title, content, dripple_id) {
+        if (title === '' && content === '') {
+            return;
+        }
         console.log(title, content, dripple_id)
         axios.put(`${SERVER_URL}${dripple_id}.json`, {title: title, content: content, id: dripple_id}).then((response) => {
             console.log(response);
             this.props.updateDripples()
+            this.setState({featured_id: null, featured: false});
+        })
+    }
+
+    delete() {
+        alert('Are you sure?'); // SOMETHING like an alert
+        console.log('doing this');
+        axios.delete(`${SERVER_URL}${this.state.featured_id}.json`).then((response) => {
+            console.log(response);
+            this.props.updateDripples();
+            this.setState({featured_id: null, featured: false});
         })
     }
 
@@ -42,7 +57,8 @@ class Dripples extends Component {
             controlOptions = (
                 <div>
                     <EditDripple drippleId={ featured_id } onSubmit={ this.saveEdit } />
-                    <DeleteDripple drippleId={ featured_id } onSubmit={ this.saveDelete } />
+                    {/* <DeleteDripple drippleId={ featured_id } onSubmit={ this.saveDelete } /> */}
+                    <button onClick={ this.delete }>Delete</button>
                     <ConnectDripple drippleId={ featured_id } onSubmit={ this._handleConnect } />
                 </div>
             )
@@ -104,17 +120,6 @@ class EditDripple extends Component {
     }
 }
 
-class DeleteDripple extends Component {
-    render() {
-        return (
-            <div>
-                <p>Button to remove Dripple</p>
-                { console.log(this.props.drippleId)}
-
-            </div>
-        )
-    }
-}
 
 class ConnectDripple extends Component {
     render() {
