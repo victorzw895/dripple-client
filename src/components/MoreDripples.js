@@ -4,8 +4,8 @@ import axios from 'axios';
 import SideNavBar from './SideNavBar';
 
 
-// const SERVER_URL = 'http://www.localhost:3000/api/dripples.json';
-const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples.json';
+const SERVER_URL = 'http://www.localhost:3000/api/dripples.json';
+// const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples.json';
 
 class MoreDripples extends Component {
     constructor() {
@@ -24,11 +24,16 @@ class MoreDripples extends Component {
         
     componentDidMount() {
         //     // NEED TO FILTER results by similar tags and categories
+        if (this.props.location.state === undefined) {
+            this.props.history.push("/dropspace");
+            return;
+        }
         let token = "Bearer " + localStorage.getItem("jwt");
         axios({method: 'get', url: SERVER_URL, headers: {'Authorization': token}}).then(response => {
             console.log(response.data);
             console.log(this.props.location.state)
             const current_dripple = response.data.filter(dripple => dripple.id === Number(this.props.location.state))
+            // const matches = response.data.filter
             this.setState({
                 dripple: current_dripple,
                 isLoaded: true,
