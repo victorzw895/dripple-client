@@ -9,7 +9,7 @@ class Dripples extends Component {
     constructor() {
         super();
         this.state = {
-            featured_id: null,
+            featuredId: null,
             featured: false
         }
         this.saveEdit = this.saveEdit.bind( this );
@@ -17,16 +17,16 @@ class Dripples extends Component {
         this._handleClick = this._handleClick.bind( this );
     }
 
-    saveEdit(title, content, dripple_id) {
+    saveEdit(title, content, drippleId) {
         if (title === '' && content === '') {
             return;
         }
-        console.log(title, content, dripple_id)
+        console.log(title, content, drippleId)
         let token = "Bearer " + localStorage.getItem("jwt");
-        axios({method: 'put', url: `${SERVER_URL}${dripple_id}.json`, headers: {'Authorization': token}, data: {title: title, content: content, id: dripple_id}}).then(response => {
+        axios({method: 'put', url: `${SERVER_URL}${drippleId}.json`, headers: {'Authorization': token}, data: {title: title, content: content, id: drippleId}}).then(response => {
             console.log(response);
             this.props.updateDripples()
-            this.setState({featured_id: null, featured: false});
+            this.setState({featuredId: null, featured: false});
         })
 
     }
@@ -35,19 +35,19 @@ class Dripples extends Component {
         alert('Are you sure?'); // SOMETHING like an alert
         console.log('doing this');
         let token = "Bearer " + localStorage.getItem("jwt"); 
-        axios({method: 'delete', url: `${SERVER_URL}${this.state.featured_id}.json`, headers: {'Authorization': token}}).then(response => {
+        axios({method: 'delete', url: `${SERVER_URL}${this.state.featuredId}.json`, headers: {'Authorization': token}}).then(response => {
             console.log(response);
             this.props.updateDripples();
-            this.setState({featured_id: null, featured: false});
+            this.setState({featuredId: null, featured: false});
         })
     }
 
     _handleClick(i) {
-        const { featured_id, featured } = this.state
-        if (featured_id === null && !featured) {
-            this.setState({featured_id: i, featured: !featured})
-        } else if (featured && featured_id === i ) {
-            this.setState({featured_id: null, featured: !featured})
+        const { featuredId, featured } = this.state
+        if (featuredId === null && !featured) {
+            this.setState({featuredId: i, featured: !featured})
+        } else if (featured && featuredId === i ) {
+            this.setState({featuredId: null, featured: !featured})
         }
         console.log(this.state);
         console.log('this should zoom into clicked dripple', i)
@@ -55,18 +55,18 @@ class Dripples extends Component {
     }
 
     render() {
-        const { featured_id, featured } = this.state;
+        const { featuredId, featured } = this.state;
         let controlOptions;
         if (featured) {
             controlOptions = (
                 <div>
-                    <EditDripple drippleId={ featured_id } onSubmit={ this.saveEdit } />
-                    {/* <DeleteDripple drippleId={ featured_id } onSubmit={ this.saveDelete } /> */}
+                    <EditDripple drippleId={ featuredId } onSubmit={ this.saveEdit } />
+                    {/* <DeleteDripple drippleId={ featuredId } onSubmit={ this.saveDelete } /> */}
                     <button onClick={ this.delete }>Delete</button>
-                    {/* <FindDripples drippleId={ featured_id } onSubmit={ this._handleConnect } />
+                    {/* <FindDripples drippleId={ featuredId } onSubmit={ this._handleConnect } />
                     <button onClick={ this._handleConnect }>Find Dripples</button> */}
-                    <Link to={{ pathname: '/more_dripples', state: { dripple_id: { featured_id }} }}>Send off Dripple</Link>
-                    {/* <Link to="more_dripples" dripple_id={ featured_id }>Send off Dripple</Link> */}
+                    <Link to={{ pathname: '/more_dripples', state: { drippleId: { featuredId }} }}>Send off Dripple</Link>
+                    {/* <Link to="more_dripples" drippleId={ featuredId }>Send off Dripple</Link> */}
                 </div>
             )
         }
@@ -77,7 +77,7 @@ class Dripples extends Component {
                         <div key={dp.id} onClick={() => this._handleClick(dp.id)}>
                                 {dp.title} {dp.content}
                         </div>
-                        {dp.id === featured_id ? controlOptions : null}
+                        {dp.id === featuredId ? controlOptions : null}
                     </div>
                 )}
             </div>

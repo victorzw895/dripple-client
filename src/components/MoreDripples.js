@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SideNavBar from './SideNavBar';
+import ConnectDripple from './ConnectDripple';
 
 
 const SERVER_URL = 'http://www.localhost:3000/api/dripples.json';
@@ -12,7 +13,7 @@ class MoreDripples extends Component {
         super();
         this.state = {
             dripple: [],
-            featured_id: null,
+            featuredId: null,
             featured: false,
             isLoaded: false,
             dripples: [],
@@ -23,21 +24,35 @@ class MoreDripples extends Component {
 
         
     componentDidMount() {
-        //     // NEED TO FILTER results by similar tags and categories
         if (this.props.location.state === undefined) {
             this.props.history.push("/dropspace");
             return;
         }
+        const { drippleId } = this.props.location.state
         let token = "Bearer " + localStorage.getItem("jwt");
         axios({method: 'get', url: SERVER_URL, headers: {'Authorization': token}}).then(response => {
-            console.log(response.data);
-            console.log(this.props.location.state)
-            const current_dripple = response.data.filter(dripple => dripple.id === Number(this.props.location.state))
-            // const matches = response.data.filter
+            const currentDripple = response.data.find(
+                dripple => dripple.id === Number(drippleId.featuredId)
+                )
+
+            const categoryResults = response.data.filter(
+                dripple => dripple.category_id === currentDripple.category_id
+                );
+
+            const drippleTags = currentDripple.tag.map(t => t.id)
+            const tagResults = response.data.filter(
+                dripple => {
+                    return drippleTags.includes(dripple.tag.id)
+                });
+
+            const finalResults = [...categoryResults, ...tagResults].filter(
+                dripple => dripple.user_id !== currentDripple.user_id
+                )
+            console.log(finalResults, categoryResults, tagResults)
             this.setState({
-                dripple: current_dripple,
+                // dripple: currentDripple,
                 isLoaded: true,
-                dripples: response.data
+                dripples: finalResults
             });
         },
         (error) => {
@@ -49,11 +64,11 @@ class MoreDripples extends Component {
     }
 
     _handleClick(i) {
-        const { featured_id, featured } = this.state
-        if (featured_id === null && !featured) {
-            this.setState({featured_id: i, featured: !featured})
-        } else if (featured && featured_id === i ) {
-            this.setState({featured_id: null, featured: !featured})
+        const { featuredId, featured } = this.state
+        if (featuredId === null && !featured) {
+            this.setState({featuredId: i, featured: !featured})
+        } else if (featured && featuredId === i ) {
+            this.setState({featuredId: null, featured: !featured})
         }
         console.log(this.state);
         console.log('this should zoom into clicked dripple', i)
@@ -61,13 +76,13 @@ class MoreDripples extends Component {
     }
 
     render() {
-        const { featured_id, featured, dripple } = this.state;
-        console.log(dripple);
+        const { featuredId, featured, dripples } = this.state;
+        console.log(dripples);
         let controlOptions;
         if (featured) {
             controlOptions = (
                 <div>
-                    <ConnectDripple drippleId={ featured_id } onSubmit={ this._handleConnect } />
+                    <ConnectDripple drippleId={ featuredId } onSubmit={ this._handleConnect } />
                 </div>
             )
         }
@@ -76,12 +91,12 @@ class MoreDripples extends Component {
                 <div className="body">
                     <SideNavBar />
                     <div className="content">
-                        {this.state.dripples.map((dp) => 
+                        {dripples.map((dp) => 
                             <div className="dripple" key={dp.id}>
                                 <div key={dp.id} onClick={() => this._handleClick(dp.id)}>
                                         {dp.title} {dp.content}
                                 </div>
-                                {dp.id === featured_id ? controlOptions : null}
+                                {dp.id === featuredId ? controlOptions : null}
                             </div>
                         )}
                     </div>
@@ -92,19 +107,19 @@ class MoreDripples extends Component {
 }
 
 
-class ConnectDripple extends Component {
-    render() {
-        return (
-            <div>
-                 Get connected with similar dripples coming soon
-                    {/* View list of featured dripples */}
-                    {/* need a like system? dripple grows the more it is liked? turns gold? */}
-                    {/* show dripples according to categories, or tags. Maybe not by location */}
-                { console.log(this.props.drippleId)}
+// class ConnectDripple extends Component {
+//     render() {
+//         return (
+//             <div>
+//                  Get connected with similar dripples coming soon
+//                     {/* View list of featured dripples */}
+//                     {/* need a like system? dripple grows the more it is liked? turns gold? */}
+//                     {/* show dripples according to categories, or tags. Maybe not by location */}
+//                 { console.log(this.props.drippleId)}
 
-            </div>
-        )
-    }
-}
+//             </div>
+//         )
+//     }
+// }
 
 export default MoreDripples;

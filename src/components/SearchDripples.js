@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SideNavBar from './SideNavBar';
+import ConnectDripple from './ConnectDripple';
 import axios from 'axios';
 
 const CATEGORY_URL = 'http://localhost:3000/api/categories.json';
@@ -27,12 +28,12 @@ class SearchDripples extends Component {
                     response.data : response.data.filter(
                         fdp => fdp.category_id === c_id
                         );
-                const filtered = t_id === 0 ? 
+                const allFilter = t_id === 0 ? 
                     categoryFilter : categoryFilter.filter(
                         fdp => {
                             return fdp.tag.some(t => t.id === t_id) 
                         });
-                this.setState({dripples: filtered})
+                this.setState({dripples: allFilter})
             }
         );
     }
@@ -147,7 +148,7 @@ class SearchResults extends Component {
             controlOptions = (
                 <div>
                     {/* MAYBE */}
-                    {/* <ConnectDripple drippleId={ featured_id } onSubmit={ this._handleConnect } /> */}
+                    <ConnectDripple drippleId={ featured_id } onSubmit={ this._handleConnect } />
                 </div>
             )
         }
