@@ -2,7 +2,8 @@ import React from "react";
 import "../index.css";
 import axios from "axios";
 
-const SERVER_URL = "http://www.localhost:3000/api/users";
+const SERVER_URL = "http://localhost:3000/api/users";
+// const SERVER_URL = "http://www.dripples.herokuapp.com/api/users";
 
 class RegisterForm extends React.Component {
   constructor() {

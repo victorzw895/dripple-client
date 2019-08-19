@@ -3,10 +3,10 @@ import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import Dripples from "./Dripples";
 
-// const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
-const SERVER_URL = "http://www.dripples.herokuapp.com/api/dripples.json";
-// const USER_URL = "http://www.localhost:3000/api/users.json";
-const USER_URL = "http://www.dripples.herokuapp.com/api/users.json";
+const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
+// const SERVER_URL = "http://www.dripples.herokuapp.com/api/dripples.json";
+const USER_URL = "http://www.localhost:3000/api/users.json";
+// const USER_URL = "http://www.dripples.herokuapp.com/api/users.json";
 
 class DropSpace extends Component {
   constructor() {

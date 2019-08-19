@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const SERVER_URL = 'http://www.localhost:3000/api/dripples/';
+// const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples/';
 
 class Dripples extends Component {
     constructor() {

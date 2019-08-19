@@ -3,7 +3,9 @@ import SideNavBar from './SideNavBar';
 import axios from 'axios';
 
 const CATEGORY_URL = 'http://localhost:3000/api/categories.json';
+// const CATEGORY_URL = 'http://www.dripples.herokuapp.com/api/categories.json';
 const TAG_URL = 'http://localhost:3000/api/tags.json';
+// const TAG_URL = 'http://www.dripples.herokuapp.com/api/tags.json';
 
 
 class SearchDripples extends Component {

@@ -4,7 +4,8 @@ import axios from 'axios';
 import SideNavBar from './SideNavBar';
 
 
-const SERVER_URL = 'http://www.localhost:3000/api/dripples.json';
+// const SERVER_URL = 'http://www.localhost:3000/api/dripples.json';
+const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples.json';
 
 class MoreDripples extends Component {
     constructor() {
