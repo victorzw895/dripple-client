@@ -5,14 +5,6 @@ import axios from "axios";
 const SERVER_URL = "http://www.localhost:3000/api/dripples/";
 // const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples/';
 
-navigator.geolocation.getCurrentPosition(function(position) {
-  const latitude = position.coords.latitude;
-  const longitude = position.coords.longitude;
-  const timestamp = position.timestamp;
-  console.log("lat", latitude, "long", longitude, "time", timestamp);
-  // work with this information however you'd like!
-});
-
 class Dripples extends Component {
   constructor() {
     super();
