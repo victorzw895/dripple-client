@@ -64,7 +64,8 @@ class Dripples extends Component {
                     <button onClick={ this.delete }>Delete</button>
                     {/* <FindDripples drippleId={ featured_id } onSubmit={ this._handleConnect } />
                     <button onClick={ this._handleConnect }>Find Dripples</button> */}
-                    <Link to="more_dripples">Send off Dripple</Link>
+                    <Link to={{ pathname: '/more_dripples', state: { dripple_id: { featured_id }} }}>Send off Dripple</Link>
+                    {/* <Link to="more_dripples" dripple_id={ featured_id }>Send off Dripple</Link> */}
                 </div>
             )
         }

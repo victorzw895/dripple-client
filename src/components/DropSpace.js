@@ -3,9 +3,10 @@ import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import Dripples from "./Dripples";
 
-const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
-// const SERVER_URL = 'http://2e148cc1.ngrok.io/api/dripples.json'; // TEST purposes
-const USER_URL = "http://www.localhost:3000/api/users.json";
+// const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
+const SERVER_URL = "http://www.dripples.herokuapp.com/api/dripples.json";
+// const USER_URL = "http://www.localhost:3000/api/users.json";
+const USER_URL = "http://www.dripples.herokuapp.com/api/users.json";
 
 class DropSpace extends Component {
   constructor() {
@@ -30,41 +31,40 @@ class DropSpace extends Component {
       url: USER_URL,
       headers: { Authorization: token }
     }).then(response => {
-      console.log(response.data);
-      localStorage.setItem("current_user", response.data);
+      localStorage.setItem("current_user_id", response.data.user.user_id);
+      let user_id = Number(localStorage.getItem("current_user_id"));
+      axios({
+        method: "get",
+        url: SERVER_URL,
+        headers: { Authorization: token }
+      }).then(
+        response => {
+          const user_dripples = response.data.filter(dripples => dripples.user_id === user_id)
+          this.setState({
+            isLoaded: true,
+            dripples: user_dripples
+          });
+        },
+        error => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
     });
-    axios({
-      method: "get",
-      url: SERVER_URL,
-      headers: { Authorization: token }
-    }).then(
-      response => {
-        console.log(response);
-        // const user_dripples = response.data.filter(dripples => dripples.user_id === this.state.user_id)
-        this.setState({
-          isLoaded: true,
-          dripples: response.data
-          // dripples: user_dripples
-        });
-      },
-      error => {
-        this.setState({
-          isLoaded: true,
-          error
-        });
-      }
-    );
   }
 
-  saveDripple(title, content, user_id) {
-    console.log("post request", title, content, user_id);
+  saveDripple(title, content) {
+    console.log("post request", title, content);
     let token = "Bearer " + localStorage.getItem("jwt");
+    let user_id = Number(localStorage.getItem("current_user_id"));
     // axios({method: 'post', url: SERVER_URL, headers: {'Authorization': token}, data: {title: title, content: content, user_id: user_id}}).then(response => {
     axios({
       method: "post",
       url: SERVER_URL,
       headers: { Authorization: token },
-      data: { title: title, content: content }
+      data: { title: title, content: content, user_id: user_id }
     }).then(response => {
       console.log(response);
       this.setState({
@@ -130,8 +130,7 @@ class CreateDrop extends Component {
     event.preventDefault();
     this.props.onSubmit(
       this.state.title,
-      this.state.content,
-      this.state.user_id
+      this.state.content
     );
     this.setState({ title: "", content: "" });
   }

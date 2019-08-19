@@ -10,6 +10,7 @@ class MoreDripples extends Component {
     constructor() {
         super();
         this.state = {
+            dripple: [],
             featured_id: null,
             featured: false,
             isLoaded: false,
@@ -22,11 +23,13 @@ class MoreDripples extends Component {
         
     componentDidMount() {
         //     // NEED TO FILTER results by similar tags and categories
-
         let token = "Bearer " + localStorage.getItem("jwt");
         axios({method: 'get', url: SERVER_URL, headers: {'Authorization': token}}).then(response => {
-            console.log(response);
+            console.log(response.data);
+            console.log(this.props.location.state)
+            const current_dripple = response.data.filter(dripple => dripple.id === Number(this.props.location.state))
             this.setState({
+                dripple: current_dripple,
                 isLoaded: true,
                 dripples: response.data
             });
@@ -52,7 +55,8 @@ class MoreDripples extends Component {
     }
 
     render() {
-        const { featured_id, featured } = this.state;
+        const { featured_id, featured, dripple } = this.state;
+        console.log(dripple);
         let controlOptions;
         if (featured) {
             controlOptions = (
