@@ -14,7 +14,9 @@ class DropSpace extends Component {
     this.state = {
       isLoaded: false,
       dripples: [],
-      displayCreate: false
+      displayCreate: false,
+      longitude: "",
+      latitude: ""
       // user_id: 1 // NEED TO MAKE DYNAMIC
     };
 
@@ -26,6 +28,14 @@ class DropSpace extends Component {
   // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
   componentDidMount() {
     let token = "Bearer " + localStorage.getItem("jwt");
+    // getting user location
+    window.navigator.geolocation.getCurrentPosition(success =>
+      this.setState({
+        latitude: success.coords.latitude,
+        longitude: success.coords.longitude
+      })
+    );
+    console.log(this.state);
     axios({
       method: "get",
       url: USER_URL,
@@ -39,7 +49,9 @@ class DropSpace extends Component {
         headers: { Authorization: token }
       }).then(
         response => {
-          const user_dripples = response.data.filter(dripples => dripples.user_id === user_id)
+          const user_dripples = response.data.filter(
+            dripples => dripples.user_id === user_id
+          );
           this.setState({
             isLoaded: true,
             dripples: user_dripples
@@ -64,7 +76,13 @@ class DropSpace extends Component {
       method: "post",
       url: SERVER_URL,
       headers: { Authorization: token },
-      data: { title: title, content: content, user_id: user_id }
+      data: {
+        title: title,
+        content: content,
+        user_id: user_id,
+        longitude: this.state.longitude,
+        latitude: this.state.latitude
+      }
     }).then(response => {
       console.log(response);
       this.setState({
@@ -128,10 +146,7 @@ class CreateDrop extends Component {
 
   _handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(
-      this.state.title,
-      this.state.content
-    );
+    this.props.onSubmit(this.state.title, this.state.content);
     this.setState({ title: "", content: "" });
   }
 

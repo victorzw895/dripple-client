@@ -1,18 +1,18 @@
 import styled from "styled-components";
-import { COLORS, easyMove } from "../../style-constants";
+import { easyMove } from "../../style-constants";
 
 const MarkerStyled = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   font-size: 14px;
   color: #fff;
   text-transform: uppercase;
   border: 2px solid #fff;
   border-radius: 50%;
-  background-color: ${COLORS.gray64};
+  background-color: white;
   background-size: cover;
   background-position: center;
   transition: transform 0.3s;

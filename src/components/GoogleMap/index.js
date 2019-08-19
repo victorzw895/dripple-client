@@ -30,6 +30,7 @@ export class GoogleMap extends React.PureComponent {
   };
 
   getClusters = () => {
+    console.log("inside index", markersData);
     const clusters = supercluster(markersData, {
       minZoom: 0,
       maxZoom: 16,
@@ -77,7 +78,7 @@ export class GoogleMap extends React.PureComponent {
           options={MAP.options}
           onChange={this.handleMapChange}
           yesIWantToUseGoogleMapApiInternals
-          bootstrapURLKeys={{ key: "" }}
+          bootstrapURLKeys={{ key: "AIzaSyATWB7OyhaiKf7S9kXfJQq_lZNYXTszV5M" }}
         >
           {this.state.clusters.map(item => {
             if (item.numPoints === 1) {
