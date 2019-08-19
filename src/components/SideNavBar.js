@@ -1,8 +1,39 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { link } from "fs";
 
 class SideNavBar extends Component {
   render() {
+    let links;
+    if (localStorage.getItem("jwt")) {
+      links = (
+        <div>
+           <li>
+              <Link to="/logout">Log Out</Link>
+            </li>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+              <Link to="/dropspace">DropSpace</Link>
+            </li>
+            <li>
+              <Link to="/search_dripples">Search for Dripples</Link>
+            </li>
+        </div>
+      )
+    } else {
+      links = (
+        <div>
+          <li>
+            <Link to="/login">Log In</Link>
+          </li>
+          <li>
+            <Link to="/signup">Sign Up</Link>
+          </li>
+        </div>
+      )
+    }
     return (
       <div className="side-nav-bar">
         <ul>
@@ -18,7 +49,8 @@ class SideNavBar extends Component {
               </svg>
             </Link>
           </li>
-          {localStorage.getItem("jwt") ? (
+          {links}
+          {/* {localStorage.getItem("jwt") ? (
             <li>
               <Link to="/logout">Log Out</Link>
             </li>
@@ -35,13 +67,12 @@ class SideNavBar extends Component {
           <li>
             <Link to="/profile">Profile</Link>
           </li>
-          {/* <li><Link to="/dripples">Dripples</Link></li> */}
           <li>
             <Link to="/dropspace">DropSpace</Link>
           </li>
           <li>
             <Link to="/search_dripples">Search for Dripples</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     );
