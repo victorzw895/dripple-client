@@ -4,12 +4,17 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
+    "google-map-react": "^1.1.4",
     "google-maps-react": "^2.0.2",
+    "immutable": "^4.0.0-rc.12",
+    "points-cluster": "^0.1.4",
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1"
+    "react-scripts": "3.1.1",
+    "styled-components": "^4.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
