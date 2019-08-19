@@ -40,7 +40,7 @@ class SideNavBar extends Component {
             <Link to="/dropspace">DropSpace</Link>
           </li>
           <li>
-            <Link to="/search">Search for Dripples</Link>
+            <Link to="/search_dripples">Search for Dripples</Link>
           </li>
         </ul>
       </div>
