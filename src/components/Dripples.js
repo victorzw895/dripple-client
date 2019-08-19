@@ -21,17 +21,20 @@ class Dripples extends Component {
             return;
         }
         console.log(title, content, dripple_id)
-        axios.put(`${SERVER_URL}${dripple_id}.json`, {title: title, content: content, id: dripple_id}).then((response) => {
+        let token = "Bearer " + localStorage.getItem("jwt");
+        axios({method: 'put', url: `${SERVER_URL}${dripple_id}.json`, headers: {'Authorization': token}, data: {title: title, content: content, id: dripple_id}}).then(response => {
             console.log(response);
             this.props.updateDripples()
             this.setState({featured_id: null, featured: false});
         })
+
     }
 
     delete() {
         alert('Are you sure?'); // SOMETHING like an alert
         console.log('doing this');
-        axios.delete(`${SERVER_URL}${this.state.featured_id}.json`).then((response) => {
+        let token = "Bearer " + localStorage.getItem("jwt"); 
+        axios({method: 'delete', url: `${SERVER_URL}${this.state.featured_id}.json`, headers: {'Authorization': token}}).then(response => {
             console.log(response);
             this.props.updateDripples();
             this.setState({featured_id: null, featured: false});
@@ -59,7 +62,9 @@ class Dripples extends Component {
                     <EditDripple drippleId={ featured_id } onSubmit={ this.saveEdit } />
                     {/* <DeleteDripple drippleId={ featured_id } onSubmit={ this.saveDelete } /> */}
                     <button onClick={ this.delete }>Delete</button>
-                    <ConnectDripple drippleId={ featured_id } onSubmit={ this._handleConnect } />
+                    {/* <FindDripples drippleId={ featured_id } onSubmit={ this._handleConnect } />
+                    <button onClick={ this._handleConnect }>Find Dripples</button> */}
+                    <Link to="more_dripples">Send off Dripple</Link>
                 </div>
             )
         }
@@ -121,23 +126,19 @@ class EditDripple extends Component {
 }
 
 
-class ConnectDripple extends Component {
-    render() {
-        return (
-            <div>
-                <p>should be a component that renders a filter form</p>
-                <p>user selects filter options and clicks on search</p>
-                <p>
-                    match dripple with a dripple from another user that has similar matches
-                </p>
-                <p>
-                    this should remove all dripples in current state and fill with new dripples from multiple users
-                </p>
-                { console.log(this.props.drippleId)}
+// class FindDripples extends Component {
+//     render() {
+//         return (
+//             <div>
+//                  Get connected with similar dripples coming soon
+//                     {/* View list of featured dripples */}
+//                     {/* need a like system? dripple grows the more it is liked? turns gold? */}
+//                     {/* show dripples according to categories, or tags. Maybe not by location */}
+//                 { console.log(this.props.drippleId)}
 
-            </div>
-        )
-    }
-}
+//             </div>
+//         )
+//     }
+// }
 
 export default Dripples;

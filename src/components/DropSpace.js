@@ -6,6 +6,8 @@ import Dripples from './Dripples';
 
 const SERVER_URL = 'http://www.localhost:3000/api/dripples.json';
 // const SERVER_URL = 'http://2e148cc1.ngrok.io/api/dripples.json'; // TEST purposes
+const USER_URL = 'http://www.localhost:3000/api/users.json';
+
 
 class DropSpace extends Component {
     constructor() {
@@ -14,14 +16,9 @@ class DropSpace extends Component {
             isLoaded: false,
             dripples: [],
             displayCreate: false
+            // user_id: 1 // NEED TO MAKE DYNAMIC
         }
-        // const fetchDripples = () => {
-        //     axios.get(SERVER_URL).then((results) => {
-        //         this.setState({dripples: results.data});
-        //         // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
-        //     })
-        // }
-        // fetchDripples();
+     
         this._handleClick = this._handleClick.bind( this );
         this.saveDripple = this.saveDripple.bind( this );
         this.componentDidMount = this.componentDidMount.bind( this );
@@ -29,10 +26,18 @@ class DropSpace extends Component {
 
     // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
     componentDidMount() {
-        axios.get(SERVER_URL).then((results) => {
+        let token = "Bearer " + localStorage.getItem("jwt");
+        axios({method: 'get', url: USER_URL, headers: {'Authorization': token}}).then(response => {
+            console.log(response.data)
+            // localStorage.setItem("current_user", response.data);
+        });
+        axios({method: 'get', url: SERVER_URL, headers: {'Authorization': token}}).then(response => {
+            console.log(response);
+            // const user_dripples = response.data.filter(dripples => dripples.user_id === this.state.user_id)
             this.setState({
                 isLoaded: true,
-                dripples: results.data
+                dripples: response.data
+                // dripples: user_dripples
             });
         },
         (error) => {
@@ -40,19 +45,22 @@ class DropSpace extends Component {
                 isLoaded: true,
                 error
             });
-        })
+        });
     }
-
 
 
     saveDripple(title, content, user_id) {
         console.log('post request', title, content, user_id);
-
-        axios.post(SERVER_URL, {title: title, content: content, user_id: user_id}).then((response) => {
+        let token = "Bearer " + localStorage.getItem("jwt");
+        // axios({method: 'post', url: SERVER_URL, headers: {'Authorization': token}, data: {title: title, content: content, user_id: user_id}}).then(response => {
+        axios({method: 'post', url: SERVER_URL, headers: {'Authorization': token}, data: {title: title, content: content}}).then(response => {
             console.log(response)
             this.setState({ dripples: [...this.state.dripples, response.data], displayCreate: false })
         })
     }
+
+
+
 
     _handleClick() {
         this.setState({ displayCreate: !this.state.displayCreate })

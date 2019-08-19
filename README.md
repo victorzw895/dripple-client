@@ -2,6 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Extra Features to Consider in the future
 - Sorting dripples into their own groups, when there is too many dripples in user space
+- Private and public dripples
 
 ## Available Scripts
 
