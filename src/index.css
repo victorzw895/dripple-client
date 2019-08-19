@@ -81,3 +81,8 @@ form input {
   color: #6b8e23;
   margin-bottom: 10px;
 }
+
+div.mapFrame {
+  width: 100vw;
+  height: 100%;
+}
