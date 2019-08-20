@@ -91,3 +91,9 @@ div.mapFrame {
   width: 100%;
   height: 100vh;
 }
+
+.button_transparent {
+  background-color: rgba(148, 95, 162, 0);
+  border: none;
+  overflow: hidden;
+}

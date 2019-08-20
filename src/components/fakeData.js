@@ -12,10 +12,14 @@ const getLocationArray = () => {
     const dripplesArray = response.data;
     // let newArray = [];
     for (let i = 0; i < dripplesArray.length; i++) {
+      const dripple = dripplesArray[i];
       const newObject = {
-        id: i,
-        lat: dripplesArray[i].latitude,
-        lng: dripplesArray[i].longitude
+        id: dripple.id,
+        lat: dripple.latitude,
+        lng: dripple.longitude,
+        title: dripple.title,
+        content: dripple.content,
+        user_id: dripple.user_id
       };
       resultArray.push(newObject);
     }
