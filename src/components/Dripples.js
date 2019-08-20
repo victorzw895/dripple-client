@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+
 const Api = require("../lib/Api.js");
+
+// const SERVER_URL = "http://www.localhost:3000/api/dripples/";
+// // const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples/';
 
 class Dripples extends Component {
   constructor() {
@@ -58,6 +62,7 @@ class Dripples extends Component {
           >
             Delete
           </button>
+
           {/* <FindDripples drippleId={ featuredId } onSubmit={ this._handleConnect } />
                     <button onClick={ this._handleConnect }>Find Dripples</button> */}
           <Link

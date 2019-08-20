@@ -20,7 +20,9 @@ class DropSpace extends Component {
     this.state = {
       isLoaded: false,
       dripples: [],
-      displayCreate: false
+      displayCreate: false,
+      longitude: "",
+      latitude: ""
       // user_id: 1 // NEED TO MAKE DYNAMIC
     };
 
@@ -31,6 +33,12 @@ class DropSpace extends Component {
 
   // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
   componentDidMount() {
+    window.navigator.geolocation.getCurrentPosition(success =>
+      this.setState({
+        latitude: success.coords.latitude,
+        longitude: success.coords.longitude
+      })
+    );
     console.log("updating");
     // Api.getUser()
     //   .then(result => {

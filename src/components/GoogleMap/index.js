@@ -9,9 +9,10 @@ import mapStyles from "./mapStyles.json";
 import { markersData, susolvkaCoords } from "../fakeData";
 
 import MapWrapper from "./MapWrapper";
+import { Link } from "react-router-dom";
 
 const MAP = {
-  defaultZoom: 8,
+  defaultZoom: 12,
   defaultCenter: susolvkaCoords,
   options: {
     styles: mapStyles,
@@ -30,10 +31,11 @@ export class GoogleMap extends React.PureComponent {
   };
 
   getClusters = () => {
+    console.log("inside index", markersData);
     const clusters = supercluster(markersData, {
       minZoom: 0,
-      maxZoom: 16,
-      radius: 60
+      maxZoom: 19,
+      radius: 150
     });
 
     return clusters(this.state.mapOptions);
@@ -67,6 +69,9 @@ export class GoogleMap extends React.PureComponent {
       }
     );
   };
+  //   handleMarkerClick = event => {
+  //     console.log(this.props);
+  //   };
 
   render() {
     return (
@@ -76,20 +81,21 @@ export class GoogleMap extends React.PureComponent {
           defaultCenter={MAP.defaultCenter}
           options={MAP.options}
           onChange={this.handleMapChange}
+          //   onChildClick={this.handleMarkerClick}
           yesIWantToUseGoogleMapApiInternals
-          bootstrapURLKeys={{ key: "" }}
+          bootstrapURLKeys={{ key: "AIzaSyB-G-1LlJUvvApyJnGGeFJ8YU_HbQvSGWo" }}
         >
           {this.state.clusters.map(item => {
             if (item.numPoints === 1) {
               return (
                 <Marker
                   key={item.id}
+                  point={item.points[0]}
                   lat={item.points[0].lat}
                   lng={item.points[0].lng}
                 />
               );
             }
-
             return (
               <ClusterMarker
                 key={item.id}
