@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const susolvkaCoords = { lat: -33.9198675, lng: 151.2012775 };
 
+// passing dripple details in marker for google map
 const getLocationArray = () => {
   let resultArray = [];
   axios({
@@ -29,6 +30,7 @@ const getLocationArray = () => {
 };
 export const markersData = getLocationArray();
 
+// Generate rando points for demo
 // export const markersData = [...Array(200)]
 //   .fill(0) // fill(0) for loose mode
 //   .map((__, index) => ({

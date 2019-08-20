@@ -34,8 +34,8 @@ export class GoogleMap extends React.PureComponent {
     console.log("inside index", markersData);
     const clusters = supercluster(markersData, {
       minZoom: 0,
-      maxZoom: 16,
-      radius: 60
+      maxZoom: 19,
+      radius: 150
     });
 
     return clusters(this.state.mapOptions);
