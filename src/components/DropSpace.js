@@ -5,14 +5,14 @@ import Dripples from "./Dripples";
 
 const Api = require("../lib/Api.js");
 
-// const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
-const SERVER_URL = "https://dripples.herokuapp.com/api/dripples.json";
-// const USER_URL = "http://www.localhost:3000/api/users.json";
-const USER_URL = "https://dripples.herokuapp.com/api/users.json";
-// const CATEGORY_URL = "http://localhost:3000/api/categories.json";
-const CATEGORY_URL = "https://dripples.herokuapp.com/api/categories.json";
-// const TAG_URL = "http://localhost:3000/api/tags.json";
-const TAG_URL = "https://dripples.herokuapp.com/api/tags.json";
+// // const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
+// const SERVER_URL = "https://dripples.herokuapp.com/api/dripples.json";
+// // const USER_URL = "http://www.localhost:3000/api/users.json";
+// const USER_URL = "https://dripples.herokuapp.com/api/users.json";
+// // const CATEGORY_URL = "http://localhost:3000/api/categories.json";
+// const CATEGORY_URL = "https://dripples.herokuapp.com/api/categories.json";
+// // const TAG_URL = "http://localhost:3000/api/tags.json";
+// const TAG_URL = "https://dripples.herokuapp.com/api/tags.json";
 
 class DropSpace extends Component {
   constructor() {
@@ -32,40 +32,53 @@ class DropSpace extends Component {
   // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
   componentDidMount() {
     console.log("updating");
+    // Api.getUser()
+    //   .then(result => {
+    //     console.log("user login success!");
+    //     console.log(result.data.user.user_id);
+    //     localStorage.setItem("current_user_id", result.data.user.user_id);
+    //   })
+    //   .catch(error => {
+    //     console.log("failed to get user");
+    //     return;
+    //   });
 
-    Api.getUser().then(response => {
-      let user_id = Number(localStorage.getItem("current_user_id"));
-      console.log(user_id);
+    // Api.getUser().then(response => {
+    let user_id = Number(localStorage.getItem("current_user_id"));
+    console.log(user_id);
 
-      Api.updateDripplesRender().then(
-        response => {
-          console.log(response);
-          const user_dripples = response.filter(
-            dripples => dripples.user_id === user_id
-          );
-          this.setState({
-            isLoaded: true,
-            dripples: user_dripples
-          });
-        },
-        error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
-    });
+    Api.renderDripples().then(
+      response => {
+        console.log(response.data);
+        const user_dripples = response.data.filter(
+          dripples => dripples.user_id === user_id
+        );
+        console.log(user_dripples);
+        this.setState({
+          isLoaded: true,
+          dripples: user_dripples
+        });
+      },
+      error => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    );
+    // });
   }
 
-  saveDripple(title, content) {
+  saveDripple(title, content, categoryId, tagIds) {
     let user_id = Number(localStorage.getItem("current_user_id"));
-    Api.newDripple(title, content, user_id).then(response => {
-      this.setState({
-        dripples: [...this.state.dripples, response.data],
-        displayCreate: false
-      });
-    });
+    Api.newDripple(title, content, user_id, categoryId, tagIds).then(
+      response => {
+        this.setState({
+          dripples: [...this.state.dripples, response.data],
+          displayCreate: false
+        });
+      }
+    );
   }
 
   _handleClick() {
@@ -116,7 +129,8 @@ class CreateDrop extends Component {
       categories: [],
       categoryId: 0,
       tags: [],
-      tagsIds: []
+      tagsIds: [23, 25],
+      newTags: []
     };
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleTitle = this._handleTitle.bind(this);
@@ -127,27 +141,62 @@ class CreateDrop extends Component {
 
   componentDidMount() {
     Api.getCategories().then(response => {
-      this.setState({ categories: response });
+      this.setState({ categories: response.data });
     });
     Api.getTags().then(response => {
-      this.setState({ tags: response });
+      this.setState({ tags: response.data });
     });
   }
 
   _handleSubmit(event) {
     event.preventDefault();
+    console.log(this.state.newTags);
+    // Api.addNewTags(this.state.newTags).then(response => {
+    //   this.setState({ tags: response.data });
+    // });
+    // .then(response => {
     this.props.onSubmit(
       this.state.title,
       this.state.content,
       this.state.categoryId,
-      this.state.dripple_tags
+      this.state.tagIds
     );
     this.setState({
       title: "",
       content: "",
       categoryId: 0,
-      dripple_tags: []
+      tagIds: []
     });
+    // });
+
+    //   let user_id = Number(localStorage.getItem("current_user_id"));
+    // Api.newDripple(title, content, user_id).then(response => {
+    //   this.setState({
+    //     dripples: [...this.state.dripples, response.data],
+    //     displayCreate: false
+    //   });
+    // });
+    // Api.getTags().then(response => {
+    //   this.setState({ tags: response.data });
+    // });
+    // this.setState({ tagsId: drippleTags });
+
+    // Api.getTags().then(response => {
+    //   this.setState({ tags: response.data });
+    // });
+
+    // this.props.onSubmit(
+    //   this.state.title,
+    //   this.state.content,
+    //   this.state.categoryId,
+    //   this.state.dripple_tags
+    // );
+    // this.setState({
+    //   title: "",
+    //   content: "",
+    //   categoryId: 0,
+    //   dripple_tags: []
+    // });
   }
 
   // Need to save the value inside textarea to state first, so that submit button can take this.state values as parameters when calling parent function onSubmit
@@ -178,11 +227,16 @@ class CreateDrop extends Component {
     let newTags = drippleTags.filter(t => {
       return !tags.includes(t);
     });
+    this.setState({ newTags: newTags });
+    // console.log(newTags);
 
-    Api.addNewTags(newTags).then(response => {
-      this.setState({ tags: response });
-      console.log(response);
-    });
+    // Api.addNewTags(newTags).then(response => {
+    //   this.setState({ tagsId: response.data });
+    // });
+    // Api.getTags().then(response => {
+    //   this.setState({ tags: response.data });
+    // });
+    this.setState({ tagsId: drippleTags });
     // axios({
     //   method: "post",
     //   url: TAG_URL,

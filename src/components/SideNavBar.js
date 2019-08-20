@@ -5,23 +5,26 @@ import { link } from "fs";
 class SideNavBar extends Component {
   render() {
     let links;
-    if (localStorage.getItem("jwt")) {
+    if (
+      localStorage.getItem("jwt") &&
+      localStorage.getItem("current_user_id")
+    ) {
       links = (
         <div>
-           <li>
-              <Link to="/logout">Log Out</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/dropspace">DropSpace</Link>
-            </li>
-            <li>
-              <Link to="/search_dripples">Search for Dripples</Link>
-            </li>
+          <li>
+            <Link to="/logout">Log Out</Link>
+          </li>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="/dropspace">DropSpace</Link>
+          </li>
+          <li>
+            <Link to="/search_dripples">Search for Dripples</Link>
+          </li>
         </div>
-      )
+      );
     } else {
       links = (
         <div>
@@ -32,7 +35,7 @@ class SideNavBar extends Component {
             <Link to="/signup">Sign Up</Link>
           </li>
         </div>
-      )
+      );
     }
     return (
       <div className="side-nav-bar">

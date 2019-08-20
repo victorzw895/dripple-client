@@ -24,7 +24,7 @@ class Dripples extends Component {
 
   delete() {
     Api.deleteDripple(this.state.featuredId).then(response => {
-      console.log(response);
+      console.log(response.data);
       this.props.updateDripples();
       this.setState({ featuredId: null, featured: false });
     });

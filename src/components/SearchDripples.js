@@ -3,12 +3,14 @@ import SideNavBar from "./SideNavBar";
 import ConnectDripple from "./ConnectDripple";
 import axios from "axios";
 
-// const CATEGORY_URL = "http://localhost:3000/api/categories.json";
-const CATEGORY_URL = "https://dripples.herokuapp.com/api/categories.json";
-// const TAG_URL = "http://localhost:3000/api/tags.json";
-const TAG_URL = "https://dripples.herokuapp.com/api/tags.json";
-// const DRIPPLE_URL = "http://localhost:3000/api/dripples.json";
-const DRIPPLE_URL = "https://dripples.herokuapp.com/api/dripples.json";
+const Api = require("../lib/Api.js");
+
+// // const CATEGORY_URL = "http://localhost:3000/api/categories.json";
+// const CATEGORY_URL = "https://dripples.herokuapp.com/api/categories.json";
+// // const TAG_URL = "http://localhost:3000/api/tags.json";
+// const TAG_URL = "https://dripples.herokuapp.com/api/tags.json";
+// // const DRIPPLE_URL = "http://localhost:3000/api/dripples.json";
+// const DRIPPLE_URL = "https://dripples.herokuapp.com/api/dripples.json";
 
 class SearchDripples extends Component {
   constructor() {
@@ -20,13 +22,7 @@ class SearchDripples extends Component {
   }
 
   saveSearch(c_id, t_id) {
-    const token = "Bearer " + localStorage.getItem("jwt");
-    console.log(c_id, t_id);
-    axios({
-      method: "get",
-      url: DRIPPLE_URL,
-      headers: { Authorization: token }
-    }).then(response => {
+    Api.renderDripples().then(response => {
       console.log(response.data);
       const categoryFilter =
         c_id === 0
@@ -40,6 +36,26 @@ class SearchDripples extends Component {
             });
       this.setState({ dripples: allFilter });
     });
+    // const token = "Bearer " + localStorage.getItem("jwt");
+    // console.log(c_id, t_id);
+    // axios({
+    //   method: "get",
+    //   url: DRIPPLE_URL,
+    //   headers: { Authorization: token }
+    // }).then(response => {
+    //   console.log(response.data);
+    //   const categoryFilter =
+    //     c_id === 0
+    //       ? response.data
+    //       : response.data.filter(fdp => fdp.category_id === c_id);
+    //   const allFilter =
+    //     t_id === 0
+    //       ? categoryFilter
+    //       : categoryFilter.filter(fdp => {
+    //           return fdp.tag.some(t => t.id === t_id);
+    //         });
+    //   this.setState({ dripples: allFilter });
+    // });
   }
 
   render() {
@@ -71,23 +87,31 @@ class SearchForm extends Component {
   }
 
   componentDidMount() {
-    let token = "Bearer " + localStorage.getItem("jwt");
-    axios({
-      method: "get",
-      url: CATEGORY_URL,
-      headers: { Authorization: token }
-    }).then(response => {
+    Api.getCategories().then(response => {
       console.log(response.data);
       this.setState({ categories: response.data });
     });
-    axios({
-      method: "get",
-      url: TAG_URL,
-      headers: { Authorization: token }
-    }).then(response => {
+    Api.getTags().then(response => {
       console.log(response.data);
       this.setState({ tags: response.data });
     });
+    // let token = "Bearer " + localStorage.getItem("jwt");
+    // axios({
+    //   method: "get",
+    //   url: CATEGORY_URL,
+    //   headers: { Authorization: token }
+    // }).then(response => {
+    //   console.log(response.data);
+    //   this.setState({ categories: response.data });
+    // });
+    // axios({
+    //   method: "get",
+    //   url: TAG_URL,
+    //   headers: { Authorization: token }
+    // }).then(response => {
+    //   console.log(response.data);
+    //   this.setState({ tags: response.data });
+    // });
   }
 
   _handleSubmit(e) {
@@ -97,13 +121,29 @@ class SearchForm extends Component {
   }
 
   _handleCategoryChange(e) {
-    const selectedId = Number(e.target.value);
+    let selectedId;
+    if (isNaN(e.target.value)) {
+      selectedId = 0;
+    } else {
+      selectedId = Number(e.target.value);
+    }
+    console.log(e.target.value);
+    console.log(selectedId);
+
     this.setState({ category_id: selectedId });
   }
 
   _handleTagChange(e) {
-    const selectedId = Number(e.target.value);
+    // const selectedId = Number(e.target.value);
+    let selectedId;
+    if (isNaN(e.target.value)) {
+      selectedId = 0;
+    } else {
+      selectedId = Number(e.target.value);
+    }
+    console.log(selectedId);
     this.setState({ tag_id: selectedId });
+    console.log(e.target.value);
   }
 
   render() {
@@ -123,7 +163,7 @@ class SearchForm extends Component {
         <select onChange={this._handleTagChange}>
           <option>None</option>
           {this.state.tags.map(t => (
-            <option key={t.id} data-key={t.id}>
+            <option key={t.id} value={t.id}>
               {t.tag_name}
             </option>
           ))}

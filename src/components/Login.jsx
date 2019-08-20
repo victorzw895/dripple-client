@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { post } from "axios";
 
+const Api = require("../lib/Api.js");
+
 class Login extends Component {
   constructor() {
     super();
@@ -12,14 +14,40 @@ class Login extends Component {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const request = { auth: { email: email, password: password } };
-    post("https://dripples.herokuapp.com/api/user_token", request)
-      .then(response => {
-        console.log(response.data);
+    Api.login(request).then(response => {
+      console.log(response.data);
+      Api.getUser()
+        .then(result => {
+          console.log("user login success!");
+          console.log(result.data.user.user_id);
+          localStorage.setItem("current_user_id", result.data.user.user_id);
+        })
+        .catch(error => {
+          console.log("failed to get user");
+          return;
+        });
+      localStorage.setItem("jwt", response.data.jwt);
+    });
 
-        localStorage.setItem("jwt", response.data.jwt);
-        this.props.history.push("/dropspace");
-      })
-      .catch(error => console.log("error, error"));
+    // post("https://dripples.herokuapp.com/api/user_token", request)
+    //   .then(response => {
+    //     console.log(response.data);
+
+    //     localStorage.setItem("jwt", response.data.jwt);
+    //   })
+    //   .catch(error => console.log("error, error"));
+    // Api.getUser()
+    //   .then(result => {
+    //     console.log("user login success!");
+    //     console.log(result.data.user.user_id);
+    //     localStorage.setItem("current_user_id", result.data.user.user_id);
+    //   })
+    //   .catch(error => {
+    //     console.log("failed to get user");
+    //     return;
+    //   })
+    // .then(this.props.history.push("/dropspace"));
+    this.props.history.push("/dropspace");
   }
 
   render() {
