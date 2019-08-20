@@ -16,18 +16,18 @@ class Login extends Component {
     const request = { auth: { email: email, password: password } };
     Api.login(request).then(response => {
       console.log(response.data);
-      Api.getUser()
-        .then(result => {
-          console.log("user login success!");
-          console.log(result.data.user.user_id);
-          localStorage.setItem("current_user_id", result.data.user.user_id);
-        })
-        .catch(error => {
-          console.log("failed to get user");
-          return;
-        });
       localStorage.setItem("jwt", response.data.jwt);
     });
+    Api.getUser()
+      .then(result => {
+        console.log("user login success!");
+        console.log(result.data.user.user_id);
+        localStorage.setItem("current_user_id", result.data.user.user_id);
+      })
+      .catch(error => {
+        console.log("failed to get user");
+        return;
+      });
 
     // post("https://dripples.herokuapp.com/api/user_token", request)
     //   .then(response => {
