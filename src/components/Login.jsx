@@ -12,9 +12,10 @@ class Login extends Component {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const request = { auth: { email: email, password: password } };
-    // post("http://www.dripples.herokuapp.com/api/user_token", request)
-    post("http://www.localhost:3000/api/user_token", request)
+    post("https://dripples.herokuapp.com/api/user_token", request)
       .then(response => {
+        console.log(response.data);
+
         localStorage.setItem("jwt", response.data.jwt);
         this.props.history.push("/dropspace");
       })
