@@ -1,16 +1,32 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-// import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import axios from "axios";
 
 const Api = require("../lib/Api.js");
 
-// const SERVER_URL = "http://www.localhost:3000/api/dripples/";
-// // const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples/';
+const BootstrapButton = withStyles({
+  root: {
+    borderRadius: "100%",
+    height: "100px",
+    width: "100px"
+  }
+})(Button);
+
+const FeaturedButton = withStyles({
+  root: {
+    borderRadius: "100%",
+    height: "200px",
+    width: "200px"
+  }
+})(Button);
 
 class Dripples extends Component {
   constructor() {
@@ -53,12 +69,12 @@ class Dripples extends Component {
 
   render() {
     const { featuredId, featured } = this.state;
+
     let controlOptions;
     if (featured) {
       controlOptions = (
         <div>
           <EditDripple drippleId={featuredId} onSubmit={this.saveEdit} />
-          {/* <DeleteDripple drippleId={ featuredId } onSubmit={ this.saveDelete } /> */}
           <IconButton
             onClick={e => {
               if (window.confirm("Are you sure you wish to delete this item?"))
@@ -68,8 +84,6 @@ class Dripples extends Component {
             <DeleteIcon />
           </IconButton>
 
-          {/* <FindDripples drippleId={ featuredId } onSubmit={ this._handleConnect } />
-                    <button onClick={ this._handleConnect }>Find Dripples</button> */}
           <Button
             component={Link}
             to={{
@@ -92,16 +106,42 @@ class Dripples extends Component {
     }
     return (
       <div>
-        {this.props.allDripples.map(dp => (
-          <div className="dripple" key={dp.id}>
-            <div key={dp.id} onClick={() => this._handleClick(dp.id)}>
-              {dp.id === featuredId ? `${dp.title} \n ${dp.content}` : dp.title}
-              {/* {dp.title} */}
-              {/* {dp.content} */}
-            </div>
-            {dp.id === featuredId ? controlOptions : null}
-          </div>
-        ))}
+        <Grid container justify="space-evenly" alignItems="center">
+          {this.props.allDripples.map(dp => (
+            <Box>
+              {dp.id === featuredId ? (
+                <FeaturedButton
+                  variant="contained"
+                  color="primary"
+                  className="dripple"
+                  key={dp.id}
+                  onClick={() => this._handleClick(dp.id)}
+                >
+                  <Box key={dp.id}>
+                    {dp.id === featuredId
+                      ? `${dp.title} \n ${dp.content}`
+                      : dp.title}
+                  </Box>
+                </FeaturedButton>
+              ) : (
+                <BootstrapButton
+                  variant="contained"
+                  color="primary"
+                  className="dripple"
+                  key={dp.id}
+                  onClick={() => this._handleClick(dp.id)}
+                >
+                  <Box key={dp.id}>
+                    {dp.id === featuredId
+                      ? `${dp.title} \n ${dp.content}`
+                      : dp.title}
+                  </Box>
+                </BootstrapButton>
+              )}
+              {dp.id === featuredId ? controlOptions : null}
+            </Box>
+          ))}
+        </Grid>
       </div>
     );
   }
@@ -138,26 +178,31 @@ class EditDripple extends Component {
     return (
       <div>
         <form onSubmit={this._handleSubmit}>
-          <TextField
-            onChange={this._handleTitle}
-            value={this.state.title}
-            id="outlined-dense-multiline"
-            label="Title"
-            margin="dense"
-            variant="outlined"
-            multiline
-            rowsMax="4"
-          />
-          <TextField
-            onChange={this._handleContent}
-            value={this.state.content}
-            id="outlined-dense-multiline"
-            label="Content"
-            margin="dense"
-            variant="outlined"
-            multiline
-            rowsMax="4"
-          />
+          <Box>
+            <TextField
+              onChange={this._handleTitle}
+              value={this.state.title}
+              id="outlined-dense-multiline"
+              label="Title"
+              margin="dense"
+              variant="outlined"
+              multiline
+              rowsMax="4"
+            />
+          </Box>
+          <Box>
+            <TextField
+              onChange={this._handleContent}
+              value={this.state.content}
+              id="outlined-dense-multiline"
+              label="Content"
+              margin="dense"
+              variant="outlined"
+              multiline
+              rowsMax="4"
+            />
+          </Box>
+
           <Button type="submit">Update</Button>
         </form>
         {console.log(this.props.drippleId)}

@@ -102,21 +102,30 @@ div.mapFrame {
 
 /* .dripple {
   background-color: rgba(0, 191, 255, 0.6);
-  width: 100%;
-  padding-bottom: 100%;
-  position: absolute;
-}
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
 
-.dripple div {
+} */
+/* padding-bottom: 100%; */
+/* position: absolute; */
+
+/* .dripple div {
+  width: 100px;
+  border-radius: 100%;
   line-height: 100%;
+  vertical-align: middle;
   height: 100%;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  
+} */
+/* height: 100px; */
+
+/* position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
-  right: 0;
-} */
+  right: 0; */
