@@ -3,8 +3,6 @@ let axios = require("axios");
 let apiHost = "http://dripples.herokuapp.com/api/";
 // let apiHost = "http://localhost:3000/api/"; // TESTING on LOCAHOST
 
-let token = "Bearer " + localStorage.getItem("jwt");
-
 // let current_user = localStorage.getItem("current_user_id");
 
 // // const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
@@ -28,8 +26,10 @@ module.exports = {
     // .catch(error => console.log("error, error"));
   },
 
-  getUser: function() {
+  getUser: function(token) {
     console.log("running getUser funciton");
+    // let token = "Bearer " + localStorage.getItem("jwt");
+
     return axios({
       method: "get",
       url: `${apiHost}users.json`,
@@ -51,6 +51,8 @@ module.exports = {
   },
 
   newDripple(title, content, user_id, category_id, tag_ids) {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
     return axios({
       method: "post",
       url: `${apiHost}dripples.json`,
@@ -72,6 +74,8 @@ module.exports = {
   },
 
   saveEdit: function(title, content, drippleId) {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
     if (title === "" && content === "") {
       return;
     }
@@ -92,6 +96,8 @@ module.exports = {
   },
 
   deleteDripple: function(featuredId) {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
     alert("Are you sure?");
     return axios({
       method: "delete",
@@ -107,6 +113,8 @@ module.exports = {
   },
 
   renderDripples: function() {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
     return axios({
       method: "get",
       url: `${apiHost}dripples.json`,
@@ -121,6 +129,8 @@ module.exports = {
   },
 
   getCategories: function() {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
     return axios({
       method: "get",
       url: `${apiHost}categories.json`,
@@ -135,6 +145,8 @@ module.exports = {
   },
 
   getTags: function() {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
     return axios({
       method: "get",
       url: `${apiHost}tags.json`,
@@ -149,6 +161,8 @@ module.exports = {
   },
 
   addNewTags(newTags) {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
     return axios({
       method: "post",
       url: `${apiHost}tags.json`,

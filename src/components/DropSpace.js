@@ -22,7 +22,8 @@ class DropSpace extends Component {
       dripples: [],
       displayCreate: false,
       longitude: "",
-      latitude: ""
+      latitude: "",
+      reloadOnce: true
       // user_id: 1 // NEED TO MAKE DYNAMIC
     };
 
@@ -74,7 +75,6 @@ class DropSpace extends Component {
         });
       }
     );
-    // });
   }
 
   saveDripple(title, content, categoryId, tagIds) {
