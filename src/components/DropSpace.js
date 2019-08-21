@@ -77,16 +77,23 @@ class DropSpace extends Component {
     );
   }
 
-  saveDripple(title, content, categoryId, tagIds) {
+  saveDripple(title, content, categoryId, newTags) {
     let user_id = Number(localStorage.getItem("current_user_id"));
-    Api.newDripple(title, content, user_id, categoryId, tagIds).then(
-      response => {
-        this.setState({
-          dripples: [...this.state.dripples, response.data],
-          displayCreate: false
-        });
-      }
-    );
+    Api.newDripple(title, content, user_id, categoryId).then(response => {
+      console.log("new dripple id:", response.data.id);
+      Api.addDrippleTags(newTags, response.data.id)
+        .then(result => {
+          console.log(result.data);
+        })
+        .then(
+          Api.renderDripples().then(finalResult => {
+            this.setState({
+              dripples: finalResult.data,
+              displayCreate: false
+            });
+          })
+        );
+    });
   }
 
   _handleClick() {
@@ -167,13 +174,13 @@ class CreateDrop extends Component {
       this.state.title,
       this.state.content,
       this.state.categoryId,
-      this.state.tagIds
+      this.state.newTags
     );
     this.setState({
       title: "",
       content: "",
       categoryId: 0,
-      tagIds: []
+      newTags: []
     });
     // });
 
@@ -235,7 +242,7 @@ class CreateDrop extends Component {
     let newTags = drippleTags.filter(t => {
       return !tags.includes(t);
     });
-    this.setState({ newTags: newTags });
+    this.setState({ newTags: drippleTags });
     // console.log(newTags);
 
     // Api.addNewTags(newTags).then(response => {
@@ -244,7 +251,7 @@ class CreateDrop extends Component {
     // Api.getTags().then(response => {
     //   this.setState({ tags: response.data });
     // });
-    this.setState({ tagsId: drippleTags });
+    // this.setState({ tagsId: drippleTags });
     // axios({
     //   method: "post",
     //   url: TAG_URL,

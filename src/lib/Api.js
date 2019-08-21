@@ -1,7 +1,7 @@
 let axios = require("axios");
 
-let apiHost = "http://dripples.herokuapp.com/api/";
-// let apiHost = "http://localhost:3000/api/"; // TESTING on LOCAHOST
+// let apiHost = "http://dripples.herokuapp.com/api/";
+let apiHost = "http://localhost:3000/api/"; // TESTING on LOCAHOST
 
 // let current_user = localStorage.getItem("current_user_id");
 
@@ -160,14 +160,14 @@ module.exports = {
     // });
   },
 
-  addNewTags(newTags) {
+  addDrippleTags(new_tags, dripple_id) {
     let token = "Bearer " + localStorage.getItem("jwt");
 
     return axios({
       method: "post",
       url: `${apiHost}tags.json`,
       headers: { Authorization: token },
-      data: { id: ["#tst", "#test"] }
+      data: { tag_name: new_tags, dripple_id: dripple_id }
     });
     // .then(response => {
     //   console.log(response);
