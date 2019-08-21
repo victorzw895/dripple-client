@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+// import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
 const Api = require("../lib/Api.js");
@@ -54,26 +59,34 @@ class Dripples extends Component {
         <div>
           <EditDripple drippleId={featuredId} onSubmit={this.saveEdit} />
           {/* <DeleteDripple drippleId={ featuredId } onSubmit={ this.saveDelete } /> */}
-          <button
+          <IconButton
             onClick={e => {
               if (window.confirm("Are you sure you wish to delete this item?"))
                 this.delete(e);
             }}
           >
-            Delete
-          </button>
+            <DeleteIcon />
+          </IconButton>
 
           {/* <FindDripples drippleId={ featuredId } onSubmit={ this._handleConnect } />
                     <button onClick={ this._handleConnect }>Find Dripples</button> */}
-          <Link
+          <Button
+            component={Link}
+            to={{
+              pathname: "/more_dripples",
+              state: { drippleId: { featuredId } }
+            }}
+          >
+            Send Off Dripple
+          </Button>
+          {/* <Link
             to={{
               pathname: "/more_dripples",
               state: { drippleId: { featuredId } }
             }}
           >
             Send off Dripple
-          </Link>
-          {/* <Link to="more_dripples" drippleId={ featuredId }>Send off Dripple</Link> */}
+          </Link> */}
         </div>
       );
     }
@@ -82,7 +95,9 @@ class Dripples extends Component {
         {this.props.allDripples.map(dp => (
           <div className="dripple" key={dp.id}>
             <div key={dp.id} onClick={() => this._handleClick(dp.id)}>
-              {dp.title} {dp.content}
+              {dp.id === featuredId ? `${dp.title} \n ${dp.content}` : dp.title}
+              {/* {dp.title} */}
+              {/* {dp.content} */}
             </div>
             {dp.id === featuredId ? controlOptions : null}
           </div>
@@ -123,9 +138,27 @@ class EditDripple extends Component {
     return (
       <div>
         <form onSubmit={this._handleSubmit}>
-          <textarea onChange={this._handleTitle} value={this.state.title} />
-          <textarea onChange={this._handleContent} value={this.state.content} />
-          <button type="submit">Update</button>
+          <TextField
+            onChange={this._handleTitle}
+            value={this.state.title}
+            id="outlined-dense-multiline"
+            label="Title"
+            margin="dense"
+            variant="outlined"
+            multiline
+            rowsMax="4"
+          />
+          <TextField
+            onChange={this._handleContent}
+            value={this.state.content}
+            id="outlined-dense-multiline"
+            label="Content"
+            margin="dense"
+            variant="outlined"
+            multiline
+            rowsMax="4"
+          />
+          <Button type="submit">Update</Button>
         </form>
         {console.log(this.props.drippleId)}
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SideNavBar from "./SideNavBar";
+import SideNavMaterialUI from "./SideNavMaterialUI";
 import ConnectDripple from "./ConnectDripple";
 import axios from "axios";
 
@@ -61,7 +62,7 @@ class SearchDripples extends Component {
   render() {
     return (
       <div className="body">
-        <SideNavBar />
+        <SideNavMaterialUI />
         <div className="content">
           <SearchForm onSubmit={this.saveSearch} />
           <SearchResults filteredDripples={this.state.dripples} />

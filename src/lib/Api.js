@@ -3,27 +3,9 @@ let axios = require("axios");
 // let apiHost = "http://dripples.herokuapp.com/api/";
 let apiHost = "http://localhost:3000/api/"; // TESTING on LOCAHOST
 
-// let current_user = localStorage.getItem("current_user_id");
-
-// // const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
-// const SERVER_URL = "https://dripples.herokuapp.com/api/dripples.json";
-// // const USER_URL = "http://www.localhost:3000/api/users.json";
-// const USER_URL = "https://dripples.herokuapp.com/api/users.json";
-// // const CATEGORY_URL = "http://localhost:3000/api/categories.json";
-// const CATEGORY_URL = "https://dripples.herokuapp.com/api/categories.json";
-// // const TAG_URL = "http://localhost:3000/api/tags.json";
-// const TAG_URL = "https://dripples.herokuapp.com/api/tags.json";
-
 module.exports = {
   login: function(request) {
     return axios.post(`${apiHost}user_token`, request);
-    // post("https://dripples.herokuapp.com/api/user_token", request)
-    // .then(response => {
-    //   console.log(response.data);
-
-    //   localStorage.setItem("jwt", response.data.jwt);
-    // })
-    // .catch(error => console.log("error, error"));
   },
 
   getUser: function(token) {

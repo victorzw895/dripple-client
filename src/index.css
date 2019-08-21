@@ -1,5 +1,5 @@
 body {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   /* height: 100%; */
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -16,10 +16,11 @@ code {
 
 .body {
   /* display: grid; */
+  height: 100vh;
   background-color: rgba(70, 130, 180);
 }
 
-.side-nav-bar {
+/* .side-nav-bar {
   box-sizing: border-box;
 
   display: inline-flex;
@@ -32,11 +33,12 @@ code {
 .side-nav-bar ul {
   list-style-type: none;
   padding: 20px 30px;
-}
+} */
 
-.content {
+/* .content {
   display: inline-grid;
-}
+  position: relative;
+} */
 
 #register,
 #login {
@@ -97,3 +99,24 @@ div.mapFrame {
   border: none;
   overflow: hidden;
 }
+
+/* .dripple {
+  background-color: rgba(0, 191, 255, 0.6);
+  width: 100%;
+  padding-bottom: 100%;
+  position: absolute;
+}
+
+.dripple div {
+  line-height: 100%;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+} */

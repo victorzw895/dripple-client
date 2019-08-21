@@ -1,6 +1,7 @@
 import React from "react";
 import "../index.css";
 import axios from "axios";
+import SideNavMaterialUI from "./SideNavMaterialUI";
 
 // const SERVER_URL = "http://localhost:3000/api/users";
 const SERVER_URL = "https://dripples.herokuapp.com/api/users";
@@ -107,50 +108,53 @@ class RegisterForm extends React.Component {
 
   render() {
     return (
-      <div id="main-registration-container">
-        <div id="register">
-          <h3>Registration page</h3>
-          <form
-            method="post"
-            name="userRegistrationForm"
-            onSubmit={this.submituserRegistrationForm}
-          >
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              value={this.state.fields.name}
-              onChange={this.handleChange}
-            />
-            <div className="errorMsg">{this.state.errors.name}</div>
-            <label>Email ID:</label>
-            <input
-              type="text"
-              name="email"
-              value={this.state.fields.email}
-              onChange={this.handleChange}
-            />
-            <div className="errorMsg">{this.state.errors.email}</div>
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={this.state.fields.password}
-              onChange={this.handleChange}
-            />
-            <div className="errorMsg">{this.state.errors.password}</div>
-            <label>Confirm Password:</label>
-            <input
-              type="password"
-              name="password_confirmation"
-              value={this.state.fields.password_confirmation}
-              onChange={this.handleChange}
-            />
-            <div className="errorMsg">
-              {this.state.errors.password_confirmation}
-            </div>
-            <input type="submit" className="button" value="Register" />
-          </form>
+      <div>
+        <SideNavMaterialUI />
+        <div id="main-registration-container">
+          <div id="register">
+            <h3>Registration page</h3>
+            <form
+              method="post"
+              name="userRegistrationForm"
+              onSubmit={this.submituserRegistrationForm}
+            >
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value={this.state.fields.name}
+                onChange={this.handleChange}
+              />
+              <div className="errorMsg">{this.state.errors.name}</div>
+              <label>Email ID:</label>
+              <input
+                type="text"
+                name="email"
+                value={this.state.fields.email}
+                onChange={this.handleChange}
+              />
+              <div className="errorMsg">{this.state.errors.email}</div>
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={this.state.fields.password}
+                onChange={this.handleChange}
+              />
+              <div className="errorMsg">{this.state.errors.password}</div>
+              <label>Confirm Password:</label>
+              <input
+                type="password"
+                name="password_confirmation"
+                value={this.state.fields.password_confirmation}
+                onChange={this.handleChange}
+              />
+              <div className="errorMsg">
+                {this.state.errors.password_confirmation}
+              </div>
+              <input type="submit" className="button" value="Register" />
+            </form>
+          </div>
         </div>
       </div>
     );
