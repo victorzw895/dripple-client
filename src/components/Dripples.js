@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const SERVER_URL = "http://www.localhost:3000/api/dripples/";
-// const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples/';
+const Api = require("../lib/Api.js");
+
+// const SERVER_URL = "http://www.localhost:3000/api/dripples/";
+// // const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples/';
 
 class Dripples extends Component {
   constructor() {
@@ -18,33 +20,15 @@ class Dripples extends Component {
   }
 
   saveEdit(title, content, drippleId) {
-    if (title === "" && content === "") {
-      return;
-    }
-    console.log(title, content, drippleId);
-    let token = "Bearer " + localStorage.getItem("jwt");
-    axios({
-      method: "put",
-      url: `${SERVER_URL}${drippleId}.json`,
-      headers: { Authorization: token },
-      data: { title: title, content: content, id: drippleId }
-    }).then(response => {
-      console.log(response);
+    Api.saveEdit(title, content, drippleId).then(response => {
       this.props.updateDripples();
       this.setState({ featuredId: null, featured: false });
     });
   }
 
   delete() {
-    alert("Are you sure?"); // SOMETHING like an alert
-    console.log("doing this");
-    let token = "Bearer " + localStorage.getItem("jwt");
-    axios({
-      method: "delete",
-      url: `${SERVER_URL}${this.state.featuredId}.json`,
-      headers: { Authorization: token }
-    }).then(response => {
-      console.log(response);
+    Api.deleteDripple(this.state.featuredId).then(response => {
+      console.log(response.data);
       this.props.updateDripples();
       this.setState({ featuredId: null, featured: false });
     });
@@ -70,7 +54,15 @@ class Dripples extends Component {
         <div>
           <EditDripple drippleId={featuredId} onSubmit={this.saveEdit} />
           {/* <DeleteDripple drippleId={ featuredId } onSubmit={ this.saveDelete } /> */}
-          <button onClick={this.delete}>Delete</button>
+          <button
+            onClick={e => {
+              if (window.confirm("Are you sure you wish to delete this item?"))
+                this.delete(e);
+            }}
+          >
+            Delete
+          </button>
+
           {/* <FindDripples drippleId={ featuredId } onSubmit={ this._handleConnect } />
                     <button onClick={ this._handleConnect }>Find Dripples</button> */}
           <Link
