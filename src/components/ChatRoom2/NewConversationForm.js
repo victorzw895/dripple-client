@@ -3,7 +3,9 @@ import { API_ROOT, HEADERS } from "./constants";
 
 class NewConversationForm extends React.Component {
   state = {
-    title: ""
+    title: "",
+    sender_id: localStorage.getItem("current_user_id"),
+    receiver_id: this.props.receiver_id
   };
 
   handleChange = e => {

@@ -1,11 +1,10 @@
 import React from "react";
 import { ActionCableConsumer } from "react-actioncable-provider";
-import { API_ROOT } from "./constants";
 import NewConversationForm from "./NewConversationForm";
 import MessagesArea from "./MessagesArea";
 import Cable from "./Cables";
 import ActionCableProvider from "react-actioncable-provider";
-import { API_WS_ROOT } from "./constants";
+import { API_WS_ROOT, API_ROOT, HEADERS } from "./constants";
 
 class ConversationsList extends React.Component {
   state = {
@@ -14,7 +13,10 @@ class ConversationsList extends React.Component {
   };
 
   componentDidMount = () => {
-    fetch(`${API_ROOT}/conversations`)
+    fetch(`${API_ROOT}/conversations`, {
+      method: "GET",
+      headers: HEADERS
+    })
       .then(res => res.json())
       .then(conversations => this.setState({ conversations }));
   };
@@ -57,7 +59,8 @@ class ConversationsList extends React.Component {
           ) : null}
           <h2>Conversations</h2>
           <ul>{mapConversations(conversations, this.handleClick)}</ul>
-          <NewConversationForm />
+          {/* TODO: change receiver id to dynamic on click */}
+          <NewConversationForm receiver_id={3} />
           {activeConversation ? (
             <MessagesArea
               conversation={findActiveConversation(
