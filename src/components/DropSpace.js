@@ -10,6 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import Input from "@material-ui/core/Input";
 // import p5 from "p5";
 
 const Api = require("../lib/Api.js");
@@ -183,7 +184,7 @@ class CreateDrop extends Component {
   }
 
   _handleCategory(e) {
-    const selectedIndex = e.target.options.selectedIndex;
+    const selectedIndex = e.target.value;
     console.log(selectedIndex);
     this.setState({ categoryId: selectedIndex });
   }
@@ -224,7 +225,7 @@ class CreateDrop extends Component {
           multiline
           rowsMax="4"
         />
-        <label>Category</label>
+        {/* <label>Category</label>
         <select onChange={this._handleCategory}>
           <option>None</option>
           {this.state.categories.map(c => (
@@ -232,28 +233,34 @@ class CreateDrop extends Component {
               {c.name}
             </option>
           ))}
-        </select>
-
-        {/* <FormControl>
-          <InputLabel htmlFor="category_id">Category</InputLabel>
-          <Select
-            // value={values.category}
-            onChange={this._handleCategory}
-            // inputProps={{
-            //   name: "category",
-            //   id: "category_id"
-            // }}
-          >
-            <MenuItem value={0}>None</MenuItem>
-            {this.state.categories.map(c => (
-              <MenuItem value={c.id}>{c.name}</MenuItem>
-            ))}
-          </Select>
-        </FormControl> */}
+        </select> */}
+        <div>
+          <FormControl>
+            <InputLabel shrink htmlFor="category_id">
+              Category
+            </InputLabel>
+            <Select
+              value={this.state.categoryId} // take value of state after _handleCategory
+              onChange={this._handleCategory}
+              displayEmpty
+              input={<Input name="category" id="category_id" />}
+              name="category"
+            >
+              <MenuItem value={0}>
+                <em>None</em>
+              </MenuItem>
+              {this.state.categories.map(c => (
+                <MenuItem key={c.id} value={c.id}>
+                  {c.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
 
         <TextField onChange={this._handleTags} />
         {/* <TextField onChange={this._handleTags} value={this.state.tags} /> */}
-        <Button type="submit" value="Save" />
+        <Button type="submit">Save</Button>
         {/* maybe when fetch new dripple, add new dripple into state with previously populated dripples */}
       </form>
     );
