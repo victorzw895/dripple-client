@@ -83,7 +83,7 @@ export default function TemporaryDrawer() {
   );
 
   return (
-    <div>
+    <div className="side-nav-bar">
       <Button onClick={toggleDrawer("left", true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

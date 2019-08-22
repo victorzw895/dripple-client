@@ -137,7 +137,7 @@ class DropSpace extends Component {
               id={id}
               open={open}
               anchorEl={anchorEl}
-              placement="bottom-end"
+              placement="right-end"
               disablePortal={false}
               modifiers={{
                 flip: {
@@ -146,10 +146,6 @@ class DropSpace extends Component {
                 preventOverflow: {
                   enabled: true,
                   boundariesElement: "undefined"
-                },
-                arrow: {
-                  enabled: true,
-                  element: "arrowRef"
                 }
               }}
             >
@@ -238,7 +234,16 @@ class CreateDrop extends Component {
 
   render() {
     return (
-      <form onSubmit={this._handleSubmit}>
+      // <form onSubmit={this._handleSubmit}>
+      <FormControl
+        onSubmit={this._handleSubmit}
+        style={{
+          borderRadius: "100%",
+          margin: "10px",
+          padding: "45px",
+          backgroundColor: "aliceblue"
+        }}
+      >
         <TextField
           onChange={this._handleTitle}
           value={this.state.title}
@@ -296,7 +301,8 @@ class CreateDrop extends Component {
         {/* <TextField onChange={this._handleTags} value={this.state.tags} /> */}
         <Button type="submit">Save</Button>
         {/* maybe when fetch new dripple, add new dripple into state with previously populated dripples */}
-      </form>
+        {/* </form> */}
+      </FormControl>
     );
   }
 }
