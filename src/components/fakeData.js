@@ -15,23 +15,25 @@ const getLocationArray = () => {
     for (let i = 0; i < dripplesArray.length; i++) {
       const dripple = dripplesArray[i];
       const newObject = {
-        id: dripple.id,
+        id: i,
         lat: dripple.latitude,
         lng: dripple.longitude,
+        dripple_id: dripple.id,
         title: dripple.title,
         content: dripple.content,
+        user: dripple.user_name.name,
         user_id: dripple.user_id
       };
       resultArray.push(newObject);
     }
   });
-  console.log(resultArray);
   return resultArray;
 };
+
 export const markersData = getLocationArray();
 
 // Generate rando points for demo
-// export const markersData = [...Array(200)]
+// export const markersData = [...Array(20)]
 //   .fill(0) // fill(0) for loose mode
 //   .map((__, index) => ({
 //     id: index,

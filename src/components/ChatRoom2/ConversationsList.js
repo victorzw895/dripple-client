@@ -1,20 +1,20 @@
 import React from "react";
-import { ActionCableConsumer } from "react-actioncable-provider";
-import NewConversationForm from "./NewConversationForm";
-import MessageCable from "./MessageCable";
+
 import MessagesArea from "./MessagesArea";
-import ConversationsCables from "./Cables";
-import ActionCableProvider from "react-actioncable-provider";
+
 import { API_WS_ROOT, API_ROOT, HEADERS } from "./constants";
+import Cable from "actioncable";
+
+let cable = Cable.createConsumer(API_ROOT + "/cable");
 
 const currentUserID = Number(localStorage.getItem("current_user_id"));
 
-const createConvo = (sender_id, receiver_id) => {
+const createConvo = (sender_id, receiver_id, receiver_name) => {
   return fetch(`${API_ROOT}/conversations`, {
     method: "POST",
     headers: HEADERS,
     // TODO: title should be the receiver name
-    body: JSON.stringify({ title: "NAME", sender_id, receiver_id })
+    body: JSON.stringify({ title: receiver_name, sender_id, receiver_id })
   });
 };
 class Conversations extends React.Component {
@@ -25,17 +25,22 @@ class Conversations extends React.Component {
     const conversations = [...this.state.conversations, conversation];
     this.setState({ conversations });
   };
+  componentDidMount() {
+    cable.subscriptions.create(
+      { channel: "ConversationsChannel" },
+      {
+        received: data => {
+          const { conversation } = data;
+          this.setState({
+            conversations: [...this.state.conversations, conversation]
+          });
+        }
+      }
+    );
+  }
 
   render = () => {
-    return (
-      <ActionCableProvider url={API_WS_ROOT}>
-        <ConversationsCables
-          userId={currentUserID}
-          appendNewConversation={this.appendNewConversation}
-        />
-        <ConversationsList {...this.props} {...this.state} />
-      </ActionCableProvider>
-    );
+    return <ConversationsList {...this.props} {...this.state} cable={cable} />;
   };
 }
 export default Conversations;
@@ -45,7 +50,7 @@ class ConversationsList extends React.Component {
     conversations: this.props.conversations,
     activeConversation: null,
     receiverName: "",
-    firstTime: true
+    messageSubscribed: false
   };
 
   componentDidMount = () => {
@@ -82,12 +87,38 @@ class ConversationsList extends React.Component {
         ) {
           console.log("we didnt find the receiver :(");
 
-          createConvo(currentUserID, this.props.location.receiver_id).then(
-            response => {
-              console.log("created a new one!", response);
-              return response;
-            }
-          );
+          createConvo(
+            currentUserID,
+            this.props.location.receiver_id,
+            this.props.location.receiver_name
+          ).then(response => {
+            console.log("created a new one!", response);
+            activeConversation = response.id;
+            conversations = [...conversations, response];
+            this.setState({
+              conversations: conversations,
+              activeConversation: activeConversation ? activeConversation.id : 0
+            });
+            cable.subscriptions.create(
+              {
+                channel: "MessagesChannel",
+                conversation: response.id
+              },
+              {
+                received: data => {
+                  const { message } = data;
+                  console.log("RECEIVE MESSAGE RESPONSE", data);
+                  const conversations = [...this.state.conversations];
+                  const conversation = conversations.find(
+                    conversation => conversation.id === message.conversation_id
+                  );
+                  conversation.messages = [...conversation.messages, message];
+                  console.log("current state before:  ", this.state);
+                  this.setState({ conversations });
+                }
+              }
+            );
+          });
         }
 
         this.setState({
@@ -97,13 +128,30 @@ class ConversationsList extends React.Component {
       });
   };
 
-  handleFirstTime = () => {
-    if (this.state.firstTime){
-      this.setState({ firstTime: false });
-    }
-  };
   handleClick = id => {
-    this.setState({ activeConversation: id });
+    if (!this.state.messageSubscribed) {
+      cable.subscriptions.create(
+        {
+          channel: "MessagesChannel",
+          conversation: id
+        },
+        {
+          received: data => {
+            const { message } = data;
+            console.log("RECEIVE MESSAGE RESPONSE", data);
+            const conversations = [...this.state.conversations];
+            const conversation = conversations.find(
+              conversation => conversation.id === message.conversation_id
+            );
+            conversation.messages = [...conversation.messages, message];
+            console.log("current state before:  ", this.state);
+            this.setState({ conversations });
+          }
+        }
+      );
+    }
+
+    this.setState({ activeConversation: id, messageSubscribed: true });
   };
 
   handleReceivedConversation = response => {
@@ -144,23 +192,18 @@ class ConversationsList extends React.Component {
           ) : null}
         </div>
         <div className="messages">
-          {/* {this.state.connected ? null : ( */}
-          {this.state.firstTime ? (
-            <MessageCable
-              conversations={conversations}
-              handleReceivedMessage={this.handleReceivedMessage}
-              // handleConnected={this.handleConnected}
-            />
-          ) : null}
-          {/* )} */}
-
           {activeConversation ? (
             <MessagesArea
-              handleFirstTime={this.handleFirstTime}
-              conversation={findActiveConversation(
-                conversations,
-                activeConversation
-              )}
+              title={
+                findActiveConversation(conversations, activeConversation).title
+              }
+              conversation_id={
+                findActiveConversation(conversations, activeConversation).id
+              }
+              messages={
+                findActiveConversation(conversations, activeConversation)
+                  .messages
+              }
             />
           ) : null}
         </div>
@@ -193,13 +236,6 @@ const mapConversations = (conversations, handleClick) => {
 //   return conversations.map(conversation => {
 //     let title;
 //     if (conversation) {
-//       console.log("the fucking conversation ", conversation);
-//       console.log(
-//         "the fucking usserrsssss ",
-//         conversation.users[0].id,
-//         "current",
-//         currentUserID
-//       );
 //       if (conversation.users[0].id !== currentUserID) {
 //         title = conversation.users[0].name;
 //       } else {
