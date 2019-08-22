@@ -3,8 +3,8 @@ import "../index.css";
 import axios from "axios";
 import SideNavMaterialUI from "./SideNavMaterialUI";
 
-// const SERVER_URL = "http://localhost:3000/api/users";
-const SERVER_URL = "https://dripples.herokuapp.com/api/users";
+const SERVER_URL = "http://localhost:3000/api/users";
+// const SERVER_URL = "https://dripples.herokuapp.com/api/users";
 
 class RegisterForm extends React.Component {
   constructor() {
