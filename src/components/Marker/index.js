@@ -1,18 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import MarkerStyled from "./MarkerStyled";
 import MarkerInGroupStyled from "./MarkerInGroupStyled";
 import Spy from "../Spy";
 import Popup from "reactjs-popup";
-
-const Card = ({ title }) => (
-  <div className="card">
-    <div className="header">{title} position </div>
-    <div className="content" />
-  </div>
-);
-
+import { Link as RouterLink } from "react-router-dom";
+// import Link from "@material-ui/core/Link";
 class Marker extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   static defaultProps = {
@@ -43,6 +36,14 @@ class Marker extends React.PureComponent {
             <div className="card">
               <div className="header">User:{this.props.point.user_id} </div>
               <div className="content">{this.props.point.content}</div>
+              <RouterLink
+                to={{
+                  pathname: "/chat",
+                  receiver_id: this.props.point.user_id
+                }}
+              >
+                Start Chat
+              </RouterLink>
             </div>
           </Popup>
         )}
