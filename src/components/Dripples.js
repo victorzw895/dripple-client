@@ -20,7 +20,9 @@ const BootstrapButton = withStyles({
     borderRadius: "100%",
     height: "100px",
     width: "100px",
-    margin: "35px"
+    margin: "35px",
+    backgroundColor: "rgba(100, 181, 246, 8.63)",
+    border: "solid 3px rgb(100, 181, 246)"
   }
 })(Button);
 

@@ -17,7 +17,8 @@ code {
 .body {
   /* display: grid; */
   height: 100vh;
-  background-color: rgba(100, 181, 246, 1);
+  width: 100vw;
+  background-color: rgba(121, 134, 203, 1);
 }
 
 html,
@@ -52,6 +53,17 @@ body {
   /* height: 100vh; */
   padding: 15px 0 0 5px;
   z-index: 2;
+}
+
+.side-bar-button {
+  width: 70px;
+  height: 70px;
+  position: fixed;
+  top: 43%;
+  left: -45px;
+  background: rgb(154, 72, 177);
+  z-index: 3;
+  border-radius: 90%;
 }
 /* 
 .side-nav-bar ul {
