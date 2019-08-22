@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import ConnectDripple from "./ConnectDripple";
+import SideNavMaterialUI from "./SideNavMaterialUI";
 
 const Api = require("../lib/Api.js");
-
-// // const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
-// const SERVER_URL = "https://dripples.herokuapp.com/api/dripples.json";
 
 class MoreDripples extends Component {
   constructor() {
@@ -63,42 +59,6 @@ class MoreDripples extends Component {
         });
       }
     );
-    // axios({
-    //   method: "get",
-    //   url: SERVER_URL,
-    //   headers: { Authorization: token }
-    // }).then(
-    //   response => {
-    //     const currentDripple = response.data.find(
-    //       dripple => dripple.id === Number(drippleId.featuredId)
-    //     );
-
-    //     const categoryResults = response.data.filter(
-    //       dripple => dripple.category_id === currentDripple.category_id
-    //     );
-
-    //     const drippleTags = currentDripple.tag.map(t => t.id);
-    //     const tagResults = response.data.filter(dripple => {
-    //       return drippleTags.includes(dripple.tag.id);
-    //     });
-
-    //     const finalResults = [...categoryResults, ...tagResults].filter(
-    //       dripple => dripple.user_id !== currentDripple.user_id
-    //     );
-    //     console.log(finalResults, categoryResults, tagResults);
-    //     this.setState({
-    //       // dripple: currentDripple,
-    //       isLoaded: true,
-    //       dripples: finalResults
-    //     });
-    //   },
-    //   error => {
-    //     this.setState({
-    //       isLoaded: true,
-    //       error
-    //     });
-    //   }
-    // );
   }
 
   _handleClick(i) {
@@ -130,7 +90,7 @@ class MoreDripples extends Component {
     return (
       <div>
         <div className="body">
-          <SideNavBar />
+          <SideNavMaterialUI />
           <div className="content">
             {dripples.map(dp => (
               <div className="dripple" key={dp.id}>

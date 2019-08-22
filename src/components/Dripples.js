@@ -1,18 +1,38 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
+// MATERIAL UI
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Popper from "@material-ui/core/Popper";
+
+// DATABASE REQUESTS
 const Api = require("../lib/Api.js");
 
-// const SERVER_URL = "http://www.localhost:3000/api/dripples/";
-// // const SERVER_URL = 'http://www.dripples.herokuapp.com/api/dripples/';
+// CUSTOMIZING MATERIAL UI CSS
+const BootstrapButton = withStyles({
+  root: {
+    borderRadius: "100%",
+    height: "100px",
+    width: "100px",
+    margin: "35px"
+  }
+})(Button);
 
+// LOAD DRIPPLES IN PAGE
 class Dripples extends Component {
   constructor() {
     super();
     this.state = {
       featuredId: null,
-      featured: false
+      featured: false,
+      size: null,
+      anchorEl: null
     };
     this.saveEdit = this.saveEdit.bind(this);
     this.delete = this.delete.bind(this);
@@ -34,59 +54,136 @@ class Dripples extends Component {
     });
   }
 
-  _handleClick(i) {
+  _handleClick(i, title, content, event) {
     const { featuredId, featured } = this.state;
     if (featuredId === null && !featured) {
+      this.setState({ anchorEl: event.currentTarget });
       this.setState({ featuredId: i, featured: !featured });
     } else if (featured && featuredId === i) {
+      this.setState({ anchorEl: null });
+
       this.setState({ featuredId: null, featured: !featured });
     }
     console.log(this.state);
     console.log("this should zoom into clicked dripple", i);
     console.log("display dripple's text");
+    console.log(title.length, content.length);
+    if (title.length + content.length <= 15) {
+      this.setState({ size: "small" });
+    } else if (title.length + content.length <= 30) {
+      this.setState({ size: "medium" });
+    } else if (title.length + content.length > 30) {
+      this.setState({ size: "large" });
+    }
   }
 
   render() {
-    const { featuredId, featured } = this.state;
+    const { featuredId, featured, size, anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popper" : undefined;
+
+    const smallDripple = {
+      height: "150px",
+      width: "150px"
+    };
+    const dripple = {
+      height: "180px",
+      width: "180px"
+    };
+    const largeDripple = {
+      height: "210px",
+      width: "210px"
+    };
+
     let controlOptions;
+    let featuredButton;
     if (featured) {
+      if (size === "small") {
+        featuredButton = smallDripple;
+      } else if (size === "medium") {
+        featuredButton = dripple;
+      } else if (size === "large") {
+        featuredButton = largeDripple;
+      }
       controlOptions = (
         <div>
           <EditDripple drippleId={featuredId} onSubmit={this.saveEdit} />
-          {/* <DeleteDripple drippleId={ featuredId } onSubmit={ this.saveDelete } /> */}
-          <button
-            onClick={e => {
-              if (window.confirm("Are you sure you wish to delete this item?"))
-                this.delete(e);
-            }}
-          >
-            Delete
-          </button>
 
-          {/* <FindDripples drippleId={ featuredId } onSubmit={ this._handleConnect } />
-                    <button onClick={ this._handleConnect }>Find Dripples</button> */}
-          <Link
+          <Button
+            component={Link}
             to={{
               pathname: "/more_dripples",
               state: { drippleId: { featuredId } }
             }}
           >
-            Send off Dripple
-          </Link>
-          {/* <Link to="more_dripples" drippleId={ featuredId }>Send off Dripple</Link> */}
+            Send Off Dripple
+          </Button>
+
+          <IconButton
+            onClick={e => {
+              if (window.confirm("Are you sure you wish to delete this item?"))
+                this.delete(e);
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
         </div>
       );
     }
     return (
       <div>
-        {this.props.allDripples.map(dp => (
-          <div className="dripple" key={dp.id}>
-            <div key={dp.id} onClick={() => this._handleClick(dp.id)}>
-              {dp.title} {dp.content}
-            </div>
-            {dp.id === featuredId ? controlOptions : null}
-          </div>
-        ))}
+        <Grid
+          container
+          justify="space-around"
+          alignItems="center"
+          style={{ margin: "0 auto" }} // , maxWidth: "960px"
+        >
+          {this.props.allDripples.map(dp => (
+            <Box>
+              <BootstrapButton
+                id={id}
+                variant="contained"
+                color="primary"
+                className="dripple"
+                key={dp.id}
+                onClick={event =>
+                  this._handleClick(dp.id, dp.title, dp.content, event)
+                }
+                style={dp.id === featuredId ? featuredButton : null}
+              >
+                <Box key={dp.id}>
+                  {dp.id === featuredId
+                    ? `${dp.title} \n ${dp.content}`
+                    : dp.title}
+                </Box>
+              </BootstrapButton>
+              <Popper
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                placement="top"
+                disablePortal={true}
+                modifiers={{
+                  flip: {
+                    enabled: true
+                  },
+                  preventOverflow: {
+                    enabled: true,
+                    boundariesElement: "undefined"
+                  },
+                  arrow: {
+                    enabled: true,
+                    element: "arrowRef"
+                  }
+                }}
+                style={{ zIndex: "20000" }}
+              >
+                {dp.id === featuredId ? controlOptions : null}
+              </Popper>
+              {/* {dp.id === featuredId ? controlOptions : null} */}
+            </Box>
+          ))}
+        </Grid>
       </div>
     );
   }
@@ -123,9 +220,32 @@ class EditDripple extends Component {
     return (
       <div>
         <form onSubmit={this._handleSubmit}>
-          <textarea onChange={this._handleTitle} value={this.state.title} />
-          <textarea onChange={this._handleContent} value={this.state.content} />
-          <button type="submit">Update</button>
+          <Box>
+            <TextField
+              onChange={this._handleTitle}
+              value={this.state.title}
+              id="outlined-dense-multiline"
+              label="Title"
+              margin="dense"
+              variant="outlined"
+              multiline
+              rowsMax="4"
+            />
+          </Box>
+          <Box>
+            <TextField
+              onChange={this._handleContent}
+              value={this.state.content}
+              id="outlined-dense-multiline"
+              label="Content"
+              margin="dense"
+              variant="outlined"
+              multiline
+              rowsMax="4"
+            />
+          </Box>
+
+          <Button type="submit">Update</Button>
         </form>
         {console.log(this.props.drippleId)}
       </div>

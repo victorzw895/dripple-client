@@ -1,18 +1,21 @@
 import React, { Component } from "react";
-import axios from "axios";
-import SideNavBar from "./SideNavBar";
+import SideNavMaterialUI from "./SideNavMaterialUI";
 import Dripples from "./Dripples";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import CloseIcon from "@material-ui/icons/Close";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Input from "@material-ui/core/Input";
+import Popper from "@material-ui/core/Popper";
+
+// import p5 from "p5";
 
 const Api = require("../lib/Api.js");
-
-// // const SERVER_URL = "http://www.localhost:3000/api/dripples.json";
-// const SERVER_URL = "https://dripples.herokuapp.com/api/dripples.json";
-// // const USER_URL = "http://www.localhost:3000/api/users.json";
-// const USER_URL = "https://dripples.herokuapp.com/api/users.json";
-// // const CATEGORY_URL = "http://localhost:3000/api/categories.json";
-// const CATEGORY_URL = "https://dripples.herokuapp.com/api/categories.json";
-// // const TAG_URL = "http://localhost:3000/api/tags.json";
-// const TAG_URL = "https://dripples.herokuapp.com/api/tags.json";
 
 class DropSpace extends Component {
   constructor() {
@@ -23,13 +26,14 @@ class DropSpace extends Component {
       displayCreate: false,
       longitude: "",
       latitude: "",
-      reloadOnce: true
-      // user_id: 1 // NEED TO MAKE DYNAMIC
+      reloadOnce: true,
+      anchorEl: null
     };
 
     this._handleClick = this._handleClick.bind(this);
     this.saveDripple = this.saveDripple.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    // const [anchorEl, setAnchorEl] = React.useState(null);
   }
 
   // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
@@ -41,18 +45,6 @@ class DropSpace extends Component {
       })
     );
     console.log("updating");
-    // Api.getUser()
-    //   .then(result => {
-    //     console.log("user login success!");
-    //     console.log(result.data.user.user_id);
-    //     localStorage.setItem("current_user_id", result.data.user.user_id);
-    //   })
-    //   .catch(error => {
-    //     console.log("failed to get user");
-    //     return;
-    //   });
-
-    // Api.getUser().then(response => {
     let user_id = Number(localStorage.getItem("current_user_id"));
     console.log(user_id);
 
@@ -87,8 +79,13 @@ class DropSpace extends Component {
         })
         .then(
           Api.renderDripples().then(finalResult => {
+            console.log(finalResult.data);
+            const user_dripples = finalResult.data.filter(
+              dripples => dripples.user_id === user_id
+            );
+            console.log(user_dripples);
             this.setState({
-              dripples: finalResult.data,
+              dripples: user_dripples,
               displayCreate: false
             });
           })
@@ -96,12 +93,16 @@ class DropSpace extends Component {
     });
   }
 
-  _handleClick() {
+  _handleClick(event) {
+    this.setState({ anchorEl: event.currentTarget });
     this.setState({ displayCreate: !this.state.displayCreate });
   }
 
   render() {
-    const { error, isLoaded, dripples, displayCreate } = this.state;
+    const { error, isLoaded, dripples, displayCreate, anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popper" : undefined;
+
     let createForm;
     if (displayCreate) {
       createForm = (
@@ -110,9 +111,7 @@ class DropSpace extends Component {
         </div>
       );
     }
-    //  else if (!displayCreate) { // seems redundant to add
-    //     createForm = null;
-    // }
+
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -120,14 +119,42 @@ class DropSpace extends Component {
     } else {
       return (
         <div className="body">
-          <SideNavBar />
+          <SideNavMaterialUI />
           <div className="content">
             <Dripples
               updateDripples={this.componentDidMount}
               allDripples={dripples}
             />
-            <button onClick={this._handleClick}>New Dripple</button>
-            {createForm}
+            <Fab
+              color="primary"
+              aria-label={id}
+              onClick={this._handleClick}
+              style={{ position: "fixed", right: "20px", bottom: "16px" }}
+            >
+              {displayCreate ? <CloseIcon /> : <AddIcon />}
+            </Fab>
+            <Popper
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              placement="bottom-end"
+              disablePortal={false}
+              modifiers={{
+                flip: {
+                  enabled: true
+                },
+                preventOverflow: {
+                  enabled: true,
+                  boundariesElement: "undefined"
+                },
+                arrow: {
+                  enabled: true,
+                  element: "arrowRef"
+                }
+              }}
+            >
+              {createForm}
+            </Popper>
           </div>
         </div>
       );
@@ -166,10 +193,7 @@ class CreateDrop extends Component {
   _handleSubmit(event) {
     event.preventDefault();
     console.log(this.state.newTags);
-    // Api.addNewTags(this.state.newTags).then(response => {
-    //   this.setState({ tags: response.data });
-    // });
-    // .then(response => {
+
     this.props.onSubmit(
       this.state.title,
       this.state.content,
@@ -182,39 +206,9 @@ class CreateDrop extends Component {
       categoryId: 0,
       newTags: []
     });
-    // });
-
-    //   let user_id = Number(localStorage.getItem("current_user_id"));
-    // Api.newDripple(title, content, user_id).then(response => {
-    //   this.setState({
-    //     dripples: [...this.state.dripples, response.data],
-    //     displayCreate: false
-    //   });
-    // });
-    // Api.getTags().then(response => {
-    //   this.setState({ tags: response.data });
-    // });
-    // this.setState({ tagsId: drippleTags });
-
-    // Api.getTags().then(response => {
-    //   this.setState({ tags: response.data });
-    // });
-
-    // this.props.onSubmit(
-    //   this.state.title,
-    //   this.state.content,
-    //   this.state.categoryId,
-    //   this.state.dripple_tags
-    // );
-    // this.setState({
-    //   title: "",
-    //   content: "",
-    //   categoryId: 0,
-    //   dripple_tags: []
-    // });
   }
 
-  // Need to save the value inside textarea to state first, so that submit button can take this.state values as parameters when calling parent function onSubmit
+  // Need to save the value inside TextField to state first, so that submit button can take this.state values as parameters when calling parent function onSubmit
   _handleTitle(e) {
     this.setState({ title: e.target.value });
   }
@@ -224,13 +218,13 @@ class CreateDrop extends Component {
   }
 
   _handleCategory(e) {
-    const selectedIndex = e.target.options.selectedIndex;
+    const selectedIndex = e.target.value;
     console.log(selectedIndex);
     this.setState({ categoryId: selectedIndex });
   }
 
   _handleTags(e) {
-    const tags = this.state.tags.map(t => t.tag_name);
+    // const tags = this.state.tags.map(t => t.tag_name);
     // let token = "Bearer " + localStorage.getItem("jwt");
 
     let drippleTags = e.target.value;
@@ -239,46 +233,33 @@ class CreateDrop extends Component {
       tag => tag.charAt(0) === "#" && tag.charAt(1) !== ""
     );
 
-    let newTags = drippleTags.filter(t => {
-      return !tags.includes(t);
-    });
     this.setState({ newTags: drippleTags });
-    // console.log(newTags);
-
-    // Api.addNewTags(newTags).then(response => {
-    //   this.setState({ tagsId: response.data });
-    // });
-    // Api.getTags().then(response => {
-    //   this.setState({ tags: response.data });
-    // });
-    // this.setState({ tagsId: drippleTags });
-    // axios({
-    //   method: "post",
-    //   url: TAG_URL,
-    //   headers: { Authorization: token },
-    //   data: { id: title, tag_name: content, dripple_id: user_id }
-    // }).then(response => {
-    //   this.setState({});
-    // });
-    console.log(tags);
-    console.log(this.state.tags);
-    console.log(newTags);
-    // axios({ method: "post" });
-    // check if each element in array starts with # followed by any character
-    // change style for those that obey hashtag rule
-    // dont allow submit without following rule.
-    // diplsay error
-
-    console.log(drippleTags);
-    // this.setState({ tags: e.target.value });
   }
 
   render() {
     return (
       <form onSubmit={this._handleSubmit}>
-        <textarea onChange={this._handleTitle} value={this.state.title} />
-        <textarea onChange={this._handleContent} value={this.state.content} />
-        <label>Category</label>
+        <TextField
+          onChange={this._handleTitle}
+          value={this.state.title}
+          id="outlined-dense-multiline"
+          label="Title"
+          margin="dense"
+          variant="outlined"
+          multiline
+          rowsMax="4"
+        />
+        <TextField
+          onChange={this._handleContent}
+          value={this.state.content}
+          id="outlined-dense-multiline"
+          label="Content"
+          margin="dense"
+          variant="outlined"
+          multiline
+          rowsMax="4"
+        />
+        {/* <label>Category</label>
         <select onChange={this._handleCategory}>
           <option>None</option>
           {this.state.categories.map(c => (
@@ -286,10 +267,34 @@ class CreateDrop extends Component {
               {c.name}
             </option>
           ))}
-        </select>
-        <textarea onChange={this._handleTags} />
-        {/* <textarea onChange={this._handleTags} value={this.state.tags} /> */}
-        <input type="submit" value="Save" />
+        </select> */}
+        <div>
+          <FormControl>
+            <InputLabel shrink htmlFor="category_id">
+              Category
+            </InputLabel>
+            <Select
+              value={this.state.categoryId} // take value of state after _handleCategory
+              onChange={this._handleCategory}
+              displayEmpty
+              input={<Input name="category" id="category_id" />}
+              name="category"
+            >
+              <MenuItem value={0}>
+                <em>None</em>
+              </MenuItem>
+              {this.state.categories.map(c => (
+                <MenuItem key={c.id} value={c.id}>
+                  {c.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        <TextField onChange={this._handleTags} />
+        {/* <TextField onChange={this._handleTags} value={this.state.tags} /> */}
+        <Button type="submit">Save</Button>
         {/* maybe when fetch new dripple, add new dripple into state with previously populated dripples */}
       </form>
     );
