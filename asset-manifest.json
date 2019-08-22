@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/dripple-client/static/css/main.e475ab52.chunk.css",
-    "main.js": "/dripple-client/static/js/main.d56b865c.chunk.js",
-    "main.js.map": "/dripple-client/static/js/main.d56b865c.chunk.js.map",
+    "main.css": "/dripple-client/static/css/main.974a3979.chunk.css",
+    "main.js": "/dripple-client/static/js/main.5a1bea3f.chunk.js",
+    "main.js.map": "/dripple-client/static/js/main.5a1bea3f.chunk.js.map",
     "runtime~main.js": "/dripple-client/static/js/runtime~main.db9f95a8.js",
     "runtime~main.js.map": "/dripple-client/static/js/runtime~main.db9f95a8.js.map",
-    "static/js/2.d0813816.chunk.js": "/dripple-client/static/js/2.d0813816.chunk.js",
-    "static/js/2.d0813816.chunk.js.map": "/dripple-client/static/js/2.d0813816.chunk.js.map",
+    "static/js/2.a2ebe9e4.chunk.js": "/dripple-client/static/js/2.a2ebe9e4.chunk.js",
+    "static/js/2.a2ebe9e4.chunk.js.map": "/dripple-client/static/js/2.a2ebe9e4.chunk.js.map",
     "index.html": "/dripple-client/index.html",
-    "precache-manifest.a6575d92a4578f3dc1691eff4917b64d.js": "/dripple-client/precache-manifest.a6575d92a4578f3dc1691eff4917b64d.js",
+    "precache-manifest.0531a729cc56032cd38a8d0ad2af531e.js": "/dripple-client/precache-manifest.0531a729cc56032cd38a8d0ad2af531e.js",
     "service-worker.js": "/dripple-client/service-worker.js",
-    "static/css/main.e475ab52.chunk.css.map": "/dripple-client/static/css/main.e475ab52.chunk.css.map",
+    "static/css/main.974a3979.chunk.css.map": "/dripple-client/static/css/main.974a3979.chunk.css.map",
     "static/media/ripplebg.jpg": "/dripple-client/static/media/ripplebg.c4d6be1a.jpg"
   }
 }
