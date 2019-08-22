@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import SideNavBar from "./SideNavBar";
 import SideNavMaterialUI from "./SideNavMaterialUI";
 import Dripples from "./Dripples";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import CloseIcon from "@material-ui/icons/Close";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -11,6 +11,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Input from "@material-ui/core/Input";
+import Popper from "@material-ui/core/Popper";
 
 // import p5 from "p5";
 
@@ -25,12 +26,14 @@ class DropSpace extends Component {
       displayCreate: false,
       longitude: "",
       latitude: "",
-      reloadOnce: true
+      reloadOnce: true,
+      anchorEl: null
     };
 
     this._handleClick = this._handleClick.bind(this);
     this.saveDripple = this.saveDripple.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    // const [anchorEl, setAnchorEl] = React.useState(null);
   }
 
   // No need for recursively fetchDripples as this will automatically fetch each time a new Dripple is made by self user.
@@ -90,12 +93,16 @@ class DropSpace extends Component {
     });
   }
 
-  _handleClick() {
+  _handleClick(event) {
+    this.setState({ anchorEl: event.currentTarget });
     this.setState({ displayCreate: !this.state.displayCreate });
   }
 
   render() {
-    const { error, isLoaded, dripples, displayCreate } = this.state;
+    const { error, isLoaded, dripples, displayCreate, anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popper" : undefined;
+
     let createForm;
     if (displayCreate) {
       createForm = (
@@ -118,10 +125,36 @@ class DropSpace extends Component {
               updateDripples={this.componentDidMount}
               allDripples={dripples}
             />
-            <Fab color="primary" aria-label="add" onClick={this._handleClick}>
-              <AddIcon />
+            <Fab
+              color="primary"
+              aria-label={id}
+              onClick={this._handleClick}
+              style={{ position: "fixed", right: "20px", bottom: "16px" }}
+            >
+              {displayCreate ? <CloseIcon /> : <AddIcon />}
             </Fab>
-            {createForm}
+            <Popper
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              placement="bottom-end"
+              disablePortal={false}
+              modifiers={{
+                flip: {
+                  enabled: true
+                },
+                preventOverflow: {
+                  enabled: true,
+                  boundariesElement: "undefined"
+                },
+                arrow: {
+                  enabled: true,
+                  element: "arrowRef"
+                }
+              }}
+            >
+              {createForm}
+            </Popper>
           </div>
         </div>
       );
