@@ -22,6 +22,7 @@ class Marker extends React.PureComponent {
           </MarkerInGroupStyled>
         ) : (
           <Popup
+            className="popupmap"
             trigger={
               <button className="button_transparent">
                 {""}
@@ -34,7 +35,7 @@ class Marker extends React.PureComponent {
             on="hover"
           >
             <div className="card">
-              <div className="header">User:{this.props.point.user_id} </div>
+              <div className="header">{this.props.point.user}:</div>
               <div className="content">{this.props.point.content}</div>
               <RouterLink
                 to={{

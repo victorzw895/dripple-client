@@ -10,7 +10,7 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import Logout from "./components/Logout";
 import SignupPage from "./components/LoginPage/SignupPage";
 import Mapcluster from "./components/GoogleMap/mapCluster";
-import Conversations from "./components/ChatRoom2/ConversationsList";
+import ChatMain from "./components/ChatRoom2/ChatMain";
 
 const Routes = (
   <Router>
@@ -24,7 +24,7 @@ const Routes = (
       <Route exact path="/logout" component={Logout} />
       <Route exact path="/signup" component={SignupPage} />
       <Route exact path="/map" component={Mapcluster} />
-      <Route exact path="/chat" component={Conversations} />
+      <Route exact path="/chat" component={ChatMain} />
     </div>
   </Router>
 );

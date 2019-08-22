@@ -9,7 +9,6 @@ import mapStyles from "./mapStyles.json";
 import { markersData, susolvkaCoords } from "../fakeData";
 
 import MapWrapper from "./MapWrapper";
-import { Link } from "react-router-dom";
 
 const MAP = {
   defaultZoom: 12,
@@ -31,7 +30,7 @@ export class GoogleMap extends React.PureComponent {
   };
 
   getClusters = () => {
-    console.log("inside index", markersData);
+    console.log("inside index", typeof markersData, markersData.length);
     const clusters = supercluster(markersData, {
       minZoom: 0,
       maxZoom: 19,

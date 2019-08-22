@@ -128,3 +128,12 @@ div.mapFrame {
   left: 0;
   bottom: 0;
   right: 0; */
+
+.card {
+  font-size: 18px;
+  color: rgb(12, 63, 104);
+  font-weight: bold;
+  background-color: rgba(223, 222, 172, 0.2);
+  line-height: 1.3em;
+  text-align: center;
+}
