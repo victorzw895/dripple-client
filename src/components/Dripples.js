@@ -59,22 +59,21 @@ class Dripples extends Component {
     if (featuredId === null && !featured) {
       this.setState({ anchorEl: event.currentTarget });
       this.setState({ featuredId: i, featured: !featured });
+      if (title.length + content.length <= 15) {
+        this.setState({ size: "small" });
+      } else if (title.length + content.length <= 30) {
+        this.setState({ size: "medium" });
+      } else if (title.length + content.length > 30) {
+        this.setState({ size: "large" });
+      }
     } else if (featured && featuredId === i) {
       this.setState({ anchorEl: null });
-
       this.setState({ featuredId: null, featured: !featured });
     }
     console.log(this.state);
     console.log("this should zoom into clicked dripple", i);
     console.log("display dripple's text");
     console.log(title.length, content.length);
-    if (title.length + content.length <= 15) {
-      this.setState({ size: "small" });
-    } else if (title.length + content.length <= 30) {
-      this.setState({ size: "medium" });
-    } else if (title.length + content.length > 30) {
-      this.setState({ size: "large" });
-    }
   }
 
   render() {
@@ -110,6 +109,7 @@ class Dripples extends Component {
           <EditDripple drippleId={featuredId} onSubmit={this.saveEdit} />
 
           <Button
+            style={{ marginLeft: "15px" }}
             component={Link}
             to={{
               pathname: "/more_dripples",
@@ -120,6 +120,7 @@ class Dripples extends Component {
           </Button>
 
           <IconButton
+            style={{ marginRight: "15px", marginBottom: "2px" }}
             onClick={e => {
               if (window.confirm("Are you sure you wish to delete this item?"))
                 this.delete(e);
@@ -176,7 +177,12 @@ class Dripples extends Component {
                     element: "arrowRef"
                   }
                 }}
-                style={{ zIndex: "20000" }}
+                style={{
+                  zIndex: "20000",
+                  backgroundColor: "rgba(236,239,241 ,1)",
+                  borderRadius: "10px"
+                  // padding: "10px"
+                }}
               >
                 {dp.id === featuredId ? controlOptions : null}
               </Popper>
@@ -220,7 +226,7 @@ class EditDripple extends Component {
     return (
       <div>
         <form onSubmit={this._handleSubmit}>
-          <Box>
+          <Box style={{ margin: "15px" }}>
             <TextField
               onChange={this._handleTitle}
               value={this.state.title}
@@ -232,7 +238,7 @@ class EditDripple extends Component {
               rowsMax="4"
             />
           </Box>
-          <Box>
+          <Box style={{ margin: "15px" }}>
             <TextField
               onChange={this._handleContent}
               value={this.state.content}
@@ -245,7 +251,9 @@ class EditDripple extends Component {
             />
           </Box>
 
-          <Button type="submit">Update</Button>
+          <Button style={{ margin: "0 15px" }} type="submit">
+            Update
+          </Button>
         </form>
         {console.log(this.props.drippleId)}
       </div>
