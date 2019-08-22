@@ -40,7 +40,8 @@ class Marker extends React.PureComponent {
               <RouterLink
                 to={{
                   pathname: "/chat",
-                  receiver_id: this.props.point.user_id
+                  receiver_id: this.props.point.user_id,
+                  receiver_name: this.props.point.user
                 }}
               >
                 Start Chat

@@ -1,15 +1,20 @@
 import React from "react";
 import NewMessageForm from "./NewMessageForm";
 
-const MessagesArea = ({ conversation: { id, title, messages } }) => {
-  return (
-    <div className="messagesArea">
-      <h2>{title}</h2>
-      <ul>{orderedMessages(messages)}</ul>
-      <NewMessageForm conversation_id={id} />
-    </div>
-  );
-};
+class MessagesArea extends React.Component {
+  render = () => {
+    if (this.props.conversation_id) {
+      return (
+        <div className="messagesArea">
+          <h2>{this.props.title}</h2>
+          <ul>{orderedMessages(this.props.messages)}</ul>
+          <NewMessageForm conversation_id={this.props.conversation_id} />
+        </div>
+      );
+    }
+    return null;
+  };
+}
 
 export default MessagesArea;
 

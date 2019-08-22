@@ -21,7 +21,8 @@ const getLocationArray = () => {
         dripple_id: dripple.id,
         title: dripple.title,
         content: dripple.content,
-        user: dripple.user_name.name
+        user: dripple.user_name.name,
+        user_id: dripple.user_id
       };
       resultArray.push(newObject);
     }
