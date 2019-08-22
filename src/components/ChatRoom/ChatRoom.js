@@ -3,12 +3,9 @@ import Cable from "actioncable";
 // import MessageForm from "./MessageForm.js";
 import Minimized from "./Minimized";
 import Maximized from "./Maximized";
-import {
-  ThemeProvider,
-  FixedWrapper,
-  purpleTheme,
-} from "@livechat/ui-kit";
+import { ThemeProvider, FixedWrapper, purpleTheme } from "@livechat/ui-kit";
 
+const user_id = localStorage.getItem("current_user_id");
 let cable = Cable.createConsumer("http://localhost:3000/cable");
 let theme = {
   ...purpleTheme,
@@ -25,13 +22,13 @@ let theme = {
   }
 };
 function parsedDate() {
-    return new Date().toLocaleString();
+  return new Date().toLocaleString();
 }
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ownId: 1,
+      ownId: user_id,
       messages: [
         // {
         //   parsedDate:  parsedDate(),
@@ -58,20 +55,20 @@ class ChatRoom extends React.Component {
   }
   componentDidMount() {
     cable.subscriptions.create(
-      { channel: "ChatChannel" },
+      { channel: "ConversationsChannel" },
       {
         received: data => {
-              
-            this.setState(
-                {
-                    messages: [...this.state.messages,{
-                        parsedDate: parsedDate(),
-                        authorId: 1,
-                        id: this.state.messages.length+1,
-                        text: data.message,
-                      }]
-                }
-            )
+          this.setState({
+            messages: [
+              ...this.state.messages,
+              {
+                parsedDate: parsedDate(),
+                authorId: 1,
+                id: this.state.messages.length + 1,
+                text: data.message
+              }
+            ]
+          });
         },
         speak: function(data) {
           return this.perform("speak", data);
@@ -79,7 +76,6 @@ class ChatRoom extends React.Component {
       }
     );
   }
-
 
   componentDidUpdate() {
     // this.bottom.current.scrollIntoView();
@@ -94,7 +90,7 @@ class ChatRoom extends React.Component {
               <Maximized {...this.state} cable={cable} />
             </FixedWrapper.Maximized>
             <FixedWrapper.Minimized>
-              <Minimized {...this.state}   />
+              <Minimized {...this.state} />
             </FixedWrapper.Minimized>
           </FixedWrapper.Root>
         </div>

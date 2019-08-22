@@ -9,7 +9,6 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // async
   handleSubmit(event) {
     event.preventDefault();
     const email = document.getElementById("email").value;
@@ -19,6 +18,8 @@ class Login extends Component {
     Api.login(request).then(response => {
       console.log(response.data);
       localStorage.setItem("jwt", response.data.jwt);
+      document.cookie = "X-Authorization=" + response.data.jwt + "; path=/";
+
       Api.getUser(response.data.jwt)
         .then(result => {
           console.log("user login success!");
