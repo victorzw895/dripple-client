@@ -173,3 +173,23 @@ div.mapFrame {
   line-height: 1.3em;
   text-align: center;
 }
+
+.messagesArea {
+  position: fixed;
+  right: 5%;
+  width: 30%;
+  min-height: 30vh;
+  bottom: 0%;
+  text-align: left;
+}
+div.messageDisplay {
+  width: 100%;
+  background-color: rgba(121, 134, 203, 0.6);
+  border: #333333 solid;
+  border-radius: 3%;
+}
+
+.newMessageForm {
+  width: 100%;
+  border-top: #333333 solid;
+}

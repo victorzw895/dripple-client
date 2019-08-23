@@ -1,5 +1,6 @@
 import React from "react";
 import { API_ROOT, HEADERS } from "./constants";
+import TextField from "@material-ui/core/TextField";
 
 class NewConversationForm extends React.Component {
   state = {
@@ -28,10 +29,13 @@ class NewConversationForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <label>New Conversation:</label>
           <br />
-          <input
+          <TextField
+            id="standard-name"
+            label="New Conversation"
             type="text"
             value={this.state.title}
             onChange={this.handleChange}
+            margin="normal"
           />
           <input type="submit" />
         </form>
