@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/dripple-client/precache-manifest.0531a729cc56032cd38a8d0ad2af531e.js"
+  "/dripple-client/precache-manifest.5650bb7a601aa299aeeeab46137924d5.js"
 );
 
 self.addEventListener('message', (event) => {
