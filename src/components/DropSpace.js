@@ -220,9 +220,6 @@ class CreateDrop extends Component {
   }
 
   _handleTags(e) {
-    // const tags = this.state.tags.map(t => t.tag_name);
-    // let token = "Bearer " + localStorage.getItem("jwt");
-
     let drippleTags = e.target.value;
     drippleTags = drippleTags.split(" ");
     drippleTags = drippleTags.filter(
@@ -234,7 +231,6 @@ class CreateDrop extends Component {
 
   render() {
     return (
-      // <form onSubmit={this._handleSubmit}>
       <FormControl
         onSubmit={this._handleSubmit}
         style={{
@@ -264,15 +260,6 @@ class CreateDrop extends Component {
           multiline
           rowsMax="4"
         />
-        {/* <label>Category</label>
-        <select onChange={this._handleCategory}>
-          <option>None</option>
-          {this.state.categories.map(c => (
-            <option key={c.id} data-key={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select> */}
         <div>
           <FormControl>
             <InputLabel shrink htmlFor="category_id">
@@ -298,10 +285,7 @@ class CreateDrop extends Component {
         </div>
 
         <TextField onChange={this._handleTags} />
-        {/* <TextField onChange={this._handleTags} value={this.state.tags} /> */}
         <Button type="submit">Save</Button>
-        {/* maybe when fetch new dripple, add new dripple into state with previously populated dripples */}
-        {/* </form> */}
       </FormControl>
     );
   }

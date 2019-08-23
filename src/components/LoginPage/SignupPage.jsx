@@ -139,7 +139,7 @@ class RegisterForm extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
     return (
-      <div>
+      <div className="body">
         <SideNavMaterialUI />
         <div
           className={classes.pageHeader}

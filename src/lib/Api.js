@@ -1,7 +1,7 @@
 let axios = require("axios");
 
-// let apiHost = "http://dripples.herokuapp.com/api/";
-let apiHost = "http://localhost:3000/api/"; // TESTING on LOCAHOST
+let apiHost = "http://dripples.herokuapp.com/api/";
+// let apiHost = "http://localhost:3000/api/"; // TESTING on LOCAHOST
 
 module.exports = {
   login: function(request) {
@@ -10,26 +10,12 @@ module.exports = {
 
   getUser: function(token) {
     console.log("running getUser funciton");
-    // let token = "Bearer " + localStorage.getItem("jwt");
 
     return axios({
       method: "get",
       url: `${apiHost}users.json`,
       headers: { Authorization: token }
     });
-    // .then(response => {
-    //   console.log("running");
-    //   // localStorage.setItem(
-    //   //   "current_user_id",
-    //   //   Number(response.data.user.user_id)
-    //   // );
-    //   return response;
-    // })
-    // .catch(error => {
-    //   console.log("running error");
-
-    //   return undefined;
-    // });
   },
 
   newDripple(title, content, user_id, category_id, tag_ids) {
@@ -47,12 +33,6 @@ module.exports = {
         tag: tag_ids
       }
     });
-    // .then(response => {
-    //   return response;
-    // })
-    // .catch(error => {
-    //   return undefined;
-    // });
   },
 
   saveEdit: function(title, content, drippleId) {
@@ -102,12 +82,6 @@ module.exports = {
       url: `${apiHost}dripples.json`,
       headers: { Authorization: token }
     });
-    // .then(response => {
-    //   return response;
-    // })
-    // .catch(error => {
-    //   return undefined;
-    // });
   },
 
   getCategories: function() {
@@ -118,12 +92,6 @@ module.exports = {
       url: `${apiHost}categories.json`,
       headers: { Authorization: token }
     });
-    // .then(response => {
-    //   return response;
-    // })
-    // .catch(error => {
-    //   return undefined;
-    // });
   },
 
   getTags: function() {
@@ -134,12 +102,6 @@ module.exports = {
       url: `${apiHost}tags.json`,
       headers: { Authorization: token }
     });
-    // .then(response => {
-    //   return response;
-    // })
-    // .catch(error => {
-    //   return undefined;
-    // });
   },
 
   addDrippleTags(new_tags, dripple_id) {
@@ -151,9 +113,5 @@ module.exports = {
       headers: { Authorization: token },
       data: { tag_name: new_tags, dripple_id: dripple_id }
     });
-    // .then(response => {
-    //   console.log(response);
-    //   return response;
-    // });
   }
 };

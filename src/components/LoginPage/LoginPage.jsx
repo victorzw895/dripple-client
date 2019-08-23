@@ -71,7 +71,7 @@ class LoginPage extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
     return (
-      <div>
+      <div className="body">
         <div
           className={classes.pageHeader}
           style={{
