@@ -1,14 +1,21 @@
 import React from "react";
 import NewMessageForm from "./NewMessageForm";
+import ListItem from "@material-ui/core/ListItem";
+import Typography from "@material-ui/core/Typography";
+import ListItemText from "@material-ui/core/ListItemText";
 
 class MessagesArea extends React.Component {
   render = () => {
     if (this.props.conversation_id) {
       return (
         <div className="messagesArea">
-          <h2>{this.props.title}</h2>
-          <ul>{orderedMessages(this.props.messages)}</ul>
-          <NewMessageForm conversation_id={this.props.conversation_id} />
+          <Typography variant="h6">
+            <h2>{this.props.title}</h2>
+          </Typography>
+          <div className="messageDisplay">
+            <ul>{orderedMessages(this.props.messages)}</ul>
+            <NewMessageForm conversation_id={this.props.conversation_id} />
+          </div>
         </div>
       );
     }
@@ -25,6 +32,6 @@ const orderedMessages = messages => {
     (a, b) => new Date(a.created_at) - new Date(b.created_at)
   );
   return sortedMessages.map(message => {
-    return <li key={message.id}>{message.text}</li>;
+    return <ListItemText key={message.id} primary={message.text} />;
   });
 };
