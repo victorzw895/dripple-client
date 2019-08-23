@@ -18,6 +18,46 @@ module.exports = {
     });
   },
 
+  getUserProfile: function(user_id) {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
+    return axios({
+      method: "get",
+      url: `${apiHost}users/${user_id}.json`,
+      headers: { Authorization: token }
+    });
+  },
+
+  editUserProfile: function(
+    user_id,
+    name,
+    profile_photo,
+    about,
+    age,
+    birthday,
+    hobbies,
+    email,
+    admin
+  ) {
+    let token = "Bearer " + localStorage.getItem("jwt");
+
+    return axios({
+      method: "put",
+      url: `${apiHost}users/${user_id}.json`,
+      headers: { Authorization: token },
+      data: {
+        name: name,
+        profile_photo: profile_photo,
+        about: about,
+        age: age,
+        birthday: birthday,
+        hobbies: hobbies,
+        email: email,
+        admin: admin
+      }
+    });
+  },
+
   newDripple(title, content, user_id, category_id, tag_ids) {
     let token = "Bearer " + localStorage.getItem("jwt");
 

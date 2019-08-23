@@ -7,6 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { Link } from "react-router-dom";
+const user_id = localStorage.getItem("current_user_id");
 
 const useStyles = makeStyles({
   list: {
@@ -38,7 +39,12 @@ export default function TemporaryDrawer() {
   if (localStorage.getItem("jwt") && localStorage.getItem("current_user_id")) {
     links = (
       <List>
-        <ListItem button component={Link} to="/profile" key="Profile">
+        <ListItem
+          button
+          component={Link}
+          to={`/profile/${user_id}`}
+          key="Profile"
+        >
           <ListItemText primary="Profile" />
         </ListItem>
         <ListItem button component={Link} to="/logout" key="Log Out">
