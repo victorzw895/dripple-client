@@ -8,10 +8,11 @@ import SearchDripples from "./components/SearchDripples";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Signup from "./components/Signup";
-import Maptest from "./components/Maptest";
 import Mapcluster from "./components/GoogleMap/mapCluster";
 import Profile from "./components/Profile/Profile";
 import EditProfile from "./components/Profile/EditProfile";
+
+const user_id = localStorage.getItem("current_user_id");
 
 const Routes = (
   <Router>
@@ -24,8 +25,8 @@ const Routes = (
       <Route exact path="/logout" component={Logout} />
       <Route exact path="/signup" component={Signup} />
       <Route exact path="/map" component={Mapcluster} />
-      <Route exact path="/profile" component={Profile} />
-      <Route exact path="/profile/edit" component={EditProfile} />
+      <Route exact path="/profile/:id" component={Profile} />
+      <Route path={`/profile/:id/:edit`} component={EditProfile} />
     </div>
   </Router>
 );

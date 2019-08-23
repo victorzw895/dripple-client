@@ -38,7 +38,8 @@ function CustomInput({ ...props }) {
     labelProps,
     inputProps,
     error,
-    success
+    success,
+    onChange
   } = props;
 
   const labelClasses = classNames({
@@ -56,10 +57,12 @@ function CustomInput({ ...props }) {
   return (
     <FormControl
       {...formControlProps}
+      style={{ marginTop: "0px" }}
       className={formControlProps.className + " " + classes.formControl}
     >
       {labelText !== undefined ? (
         <InputLabel
+          style={{ fontSize: "1.25em", marginTop: "0px" }}
           className={classes.labelRoot + labelClasses}
           htmlFor={id}
           {...labelProps}
@@ -75,6 +78,7 @@ function CustomInput({ ...props }) {
         }}
         id={id}
         {...inputProps}
+        onChange={onChange}
       />
       {error ? (
         <Clear className={classes.feedback + " " + classes.labelRootError} />
