@@ -11,6 +11,7 @@ import SignupPage from "./components/LoginPage/SignupPage";
 import Mapcluster from "./components/GoogleMap/mapCluster";
 import Profile from "./components/Profile/Profile";
 import EditProfile from "./components/Profile/EditProfile";
+import Conversations from "./components/ChatRoom2/ConversationsList";
 
 const user_id = localStorage.getItem("current_user_id");
 
