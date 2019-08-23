@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import SideNavBar from "./SideNavBar";
 import SideNavMaterialUI from "./SideNavMaterialUI";
 
 class Profile extends Component {
