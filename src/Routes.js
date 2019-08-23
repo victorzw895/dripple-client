@@ -13,8 +13,6 @@ import Profile from "./components/Profile/Profile";
 import EditProfile from "./components/Profile/EditProfile";
 import Conversations from "./components/ChatRoom2/ConversationsList";
 
-const user_id = localStorage.getItem("current_user_id");
-
 const Routes = (
   <Router>
     <div>
@@ -26,6 +24,7 @@ const Routes = (
       <Route exact path="/logout" component={Logout} />
       <Route exact path="/signup" component={SignupPage} />
       <Route exact path="/map" component={Mapcluster} />
+      <Route exact path="/chat" component={Conversations} />
       <Route exact path="/profile/:id" component={Profile} />
       <Route path={`/profile/:id/:edit`} component={EditProfile} />
     </div>

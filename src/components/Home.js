@@ -6,8 +6,6 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {
-      x: 50,
-      y: 50,
       numBalls: 11,
       spring: 0.05,
       gravity: 0,
@@ -30,16 +28,11 @@ class Home extends Component {
             balls
           );
         }
+
         // p.noStroke();
         p.stroke(100, 181, 246, 255);
         p.strokeWeight(3);
         p.fill(100, 181, 246, 220);
-      };
-
-      p.mousePressed = () => {
-        balls.forEach(ball => {
-          ball.clicked();
-        });
       };
 
       p.draw = () => {
@@ -63,10 +56,6 @@ class Home extends Component {
           this.others = oin;
         }
 
-        clicked() {
-          console.log("clicking");
-        }
-
         collide() {
           for (let i = this.id + 1; i < numBalls; i++) {
             // console.log(others[i]);
@@ -74,8 +63,8 @@ class Home extends Component {
             let dy = this.others[i].y - this.y;
             let distance = p.sqrt(dx * dx + dy * dy);
             let minDist = this.others[i].diameter / 2 + this.diameter / 2;
-            //   console.log(distance);
-            //console.log(minDist);
+            console.log(distance);
+            console.log(minDist);
             if (distance < minDist) {
               //console.log("2");
               let angle = p.atan2(dy, dx);

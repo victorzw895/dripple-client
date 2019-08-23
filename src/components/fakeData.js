@@ -7,7 +7,7 @@ const getLocationArray = () => {
   let resultArray = [];
   axios({
     method: "get",
-    url: "http://dripples.herokuapp.com/api/dripples.json"
+    url: "https://dripples.herokuapp.com/api/dripples.json"
     // url: "http://www.localhost:3000/api/dripples.json"
     // headers: { Authorization: token }
   }).then(response => {

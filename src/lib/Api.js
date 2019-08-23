@@ -1,6 +1,6 @@
 let axios = require("axios");
 
-let apiHost = "http://dripples.herokuapp.com/api/";
+let apiHost = "https://dripples.herokuapp.com/api/";
 // let apiHost = "http://localhost:3000/api/"; // TESTING on LOCAHOST
 
 module.exports = {
