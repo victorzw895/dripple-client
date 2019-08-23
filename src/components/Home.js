@@ -36,6 +36,12 @@ class Home extends Component {
         p.fill(100, 181, 246, 220);
       };
 
+      p.mousePressed = () => {
+        balls.forEach(ball => {
+          ball.clicked();
+        });
+      };
+
       p.draw = () => {
         p.background(121, 134, 203);
         // p.background(100, 181, 246, 1); // VERY VERY VERY INTERSTING
@@ -55,6 +61,10 @@ class Home extends Component {
           this.diameter = din;
           this.id = idin;
           this.others = oin;
+        }
+
+        clicked() {
+          console.log("clicking");
         }
 
         collide() {

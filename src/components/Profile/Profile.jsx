@@ -153,7 +153,7 @@ class Profile extends Component {
                     }}
                     inputProps={{
                       multiline: true,
-                      rows: 5,
+                      rows: 0,
                       disabled: true
                     }}
                   />

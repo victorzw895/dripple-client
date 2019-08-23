@@ -62,7 +62,7 @@ function CustomInput({ ...props }) {
     >
       {labelText !== undefined ? (
         <InputLabel
-          style={{ fontSize: "1.25em", marginTop: "0px" }}
+          style={{ fontSize: "1.25em", marginTop: "0px", position: "relative" }}
           className={classes.labelRoot + labelClasses}
           htmlFor={id}
           {...labelProps}

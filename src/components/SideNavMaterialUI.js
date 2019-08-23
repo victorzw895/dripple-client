@@ -39,6 +39,9 @@ export default function TemporaryDrawer() {
   if (localStorage.getItem("jwt") && localStorage.getItem("current_user_id")) {
     links = (
       <List>
+        <ListItem button component={Link} to={`/`} key="Home">
+          <ListItemText primary="Home" />
+        </ListItem>
         <ListItem
           button
           component={Link}
