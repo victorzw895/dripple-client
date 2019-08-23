@@ -127,18 +127,16 @@ class EditProfile extends Component {
     } = this.state.data;
 
     return (
-      <div>
-        <GridContainer>
-          <SideNavMaterialUI />
-          <GridItem xs={12} sm={12} md={8} style={{ margin: "0 auto" }}>
-            <EditForm
-              data={this.state.data}
-              style={this.props}
-              onSubmit={this.updateProduct}
-            />
-          </GridItem>
-        </GridContainer>
-      </div>
+      <GridContainer style={{ height: "100vh", width: "100vw" }}>
+        <SideNavMaterialUI />
+        <GridItem xs={12} sm={12} md={8} style={{ margin: "0 auto" }}>
+          <EditForm
+            data={this.state.data}
+            style={this.props}
+            onSubmit={this.updateProduct}
+          />
+        </GridItem>
+      </GridContainer>
     );
   }
 }

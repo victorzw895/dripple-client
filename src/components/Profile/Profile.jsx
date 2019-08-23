@@ -72,13 +72,13 @@ class Profile extends Component {
     } = this.state.data;
 
     return (
-      <GridContainer>
+      <GridContainer style={{ height: "100vh", width: "100vw" }}>
         <SideNavMaterialUI />
         <GridItem xs={12} sm={12} md={8} style={{ margin: "0 auto" }}>
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>My Profile</h4>
-              <p className={classes.cardCategoryWhite}></p>
+              <p className={classes.cardCategoryWhite} />
             </CardHeader>
             <CardBody>
               <CardAvatar
