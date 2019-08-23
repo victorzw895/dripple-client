@@ -4,6 +4,13 @@ import SideNavMaterialUI from "./SideNavMaterialUI";
 import ConnectDripple from "./ConnectDripple";
 import axios from "axios";
 
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Input from "@material-ui/core/Input";
+
 const Api = require("../lib/Api.js");
 
 // // const CATEGORY_URL = "http://localhost:3000/api/categories.json";
@@ -37,26 +44,6 @@ class SearchDripples extends Component {
             });
       this.setState({ dripples: allFilter });
     });
-    // const token = "Bearer " + localStorage.getItem("jwt");
-    // console.log(c_id, t_id);
-    // axios({
-    //   method: "get",
-    //   url: DRIPPLE_URL,
-    //   headers: { Authorization: token }
-    // }).then(response => {
-    //   console.log(response.data);
-    //   const categoryFilter =
-    //     c_id === 0
-    //       ? response.data
-    //       : response.data.filter(fdp => fdp.category_id === c_id);
-    //   const allFilter =
-    //     t_id === 0
-    //       ? categoryFilter
-    //       : categoryFilter.filter(fdp => {
-    //           return fdp.tag.some(t => t.id === t_id);
-    //         });
-    //   this.setState({ dripples: allFilter });
-    // });
   }
 
   render() {
@@ -150,7 +137,31 @@ class SearchForm extends Component {
   render() {
     return (
       <form onSubmit={this._handleSubmit}>
-        <label>Category</label>
+        <div>
+          <FormControl>
+            <InputLabel shrink htmlFor="category_id">
+              Category
+            </InputLabel>
+            <Select
+              value={this.state.category_id} // take value of state after _handleCategory
+              onChange={this._handleCategoryChange}
+              displayEmpty
+              input={<Input name="category" id="category_id" />}
+              name="category"
+            >
+              <MenuItem value={0}>
+                <em>None</em>
+              </MenuItem>
+              {this.state.categories.map(c => (
+                <MenuItem key={c.id} value={c.id}>
+                  {c.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        {/* <label>Category</label>
         <select onChange={this._handleCategoryChange}>
           <option>None</option>
           {this.state.categories.map(c => (
@@ -158,9 +169,33 @@ class SearchForm extends Component {
               {c.name}
             </option>
           ))}
-        </select>
+        </select> */}
 
-        <label>Tag</label>
+        <div>
+          <FormControl>
+            <InputLabel shrink htmlFor="tag_id">
+              Tag
+            </InputLabel>
+            <Select
+              value={this.state.tag_id} // take value of state after _handleCategory
+              onChange={this._handleTagChange}
+              displayEmpty
+              input={<Input name="tag" id="tag_id" />}
+              name="tag"
+            >
+              <MenuItem value={0}>
+                <em>None</em>
+              </MenuItem>
+              {this.state.tags.map(t => (
+                <MenuItem key={t.id} value={t.id}>
+                  {t.tag_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        {/* <label>Tag</label>
         <select onChange={this._handleTagChange}>
           <option>None</option>
           {this.state.tags.map(t => (
@@ -168,8 +203,8 @@ class SearchForm extends Component {
               {t.tag_name}
             </option>
           ))}
-        </select>
-        <button type="submit">Search</button>
+        </select> */}
+        <Button type="submit">Search</Button>
       </form>
     );
   }

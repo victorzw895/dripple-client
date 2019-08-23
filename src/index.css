@@ -17,19 +17,55 @@ code {
 .body {
   /* display: grid; */
   height: 100vh;
-  background-color: rgba(70, 130, 180);
+  width: 100vw;
+  background-color: rgba(121, 134, 203, 1);
 }
 
-/* .side-nav-bar {
-  box-sizing: border-box;
-
-  display: inline-flex;
-  background-color: rgba(148, 95, 162, 0.8);
-  max-width: 18%;
-  height: 100vh;
-  padding: 25px;
+html,
+body {
+  height: 90%;
 }
 
+body {
+  margin: 0;
+  display: flex;
+
+  /* This centers our sketch horizontally. */
+  /* justify-content: center; */
+
+  /* This centers our sketch vertically. */
+  /* align-items: center; */
+}
+
+.dripple-logo {
+  position: fixed;
+  top: 10%;
+  left: 27%;
+}
+
+.side-nav-bar {
+  /* box-sizing: border-box; */
+
+  position: fixed;
+  /* display: inline-flex; */
+  /* background-color: rgba(148, 95, 162, 0.8); */
+  /* max-width: 18%; */
+  /* height: 100vh; */
+  padding: 15px 0 0 5px;
+  z-index: 2;
+}
+
+.side-bar-button {
+  width: 70px;
+  height: 70px;
+  position: fixed;
+  top: 43%;
+  left: -45px;
+  background: rgb(154, 72, 177);
+  z-index: 3;
+  border-radius: 90%;
+}
+/* 
 .side-nav-bar ul {
   list-style-type: none;
   padding: 20px 30px;
@@ -100,23 +136,40 @@ div.mapFrame {
   overflow: hidden;
 }
 
-/* .dripple {
-  background-color: rgba(0, 191, 255, 0.6);
-  width: 100%;
-  padding-bottom: 100%;
-  position: absolute;
+.dripple {
+  background-color: black;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
 }
+/* padding-bottom: 100%; */
+/* position: absolute; */
 
-.dripple div {
+/* .dripple div {
+  width: 100px;
+  border-radius: 100%;
   line-height: 100%;
+  vertical-align: middle;
   height: 100%;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  
+} */
+/* height: 100px; */
+
+/* position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
-  right: 0;
-} */
+  right: 0; */
+
+.card {
+  font-size: 18px;
+  color: rgb(12, 63, 104);
+  font-weight: bold;
+  background-color: rgba(223, 222, 172, 0.2);
+  line-height: 1.3em;
+  text-align: center;
+}
