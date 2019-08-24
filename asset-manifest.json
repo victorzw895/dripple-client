@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/dripple-client/static/css/main.b313dbd6.chunk.css",
-    "main.js": "/dripple-client/static/js/main.7646d449.chunk.js",
-    "main.js.map": "/dripple-client/static/js/main.7646d449.chunk.js.map",
+    "main.js": "/dripple-client/static/js/main.ead9865e.chunk.js",
+    "main.js.map": "/dripple-client/static/js/main.ead9865e.chunk.js.map",
     "runtime~main.js": "/dripple-client/static/js/runtime~main.db9f95a8.js",
     "runtime~main.js.map": "/dripple-client/static/js/runtime~main.db9f95a8.js.map",
     "static/js/2.e751fe64.chunk.js": "/dripple-client/static/js/2.e751fe64.chunk.js",
     "static/js/2.e751fe64.chunk.js.map": "/dripple-client/static/js/2.e751fe64.chunk.js.map",
     "index.html": "/dripple-client/index.html",
-    "precache-manifest.5650bb7a601aa299aeeeab46137924d5.js": "/dripple-client/precache-manifest.5650bb7a601aa299aeeeab46137924d5.js",
+    "precache-manifest.78b7f6560ab29969f1a67dc252c64f43.js": "/dripple-client/precache-manifest.78b7f6560ab29969f1a67dc252c64f43.js",
     "service-worker.js": "/dripple-client/service-worker.js",
     "static/css/main.b313dbd6.chunk.css.map": "/dripple-client/static/css/main.b313dbd6.chunk.css.map",
     "static/media/ripplebg.jpg": "/dripple-client/static/media/ripplebg.c4d6be1a.jpg"
