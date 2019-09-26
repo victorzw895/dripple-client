@@ -45,6 +45,7 @@ class RegisterForm extends React.Component {
   handleChange(e) {
     let fields = this.state.fields;
     fields[e.target.name] = e.target.value;
+    console.log(fields);
     this.setState({
       fields
     });
@@ -109,19 +110,6 @@ class RegisterForm extends React.Component {
       errors["password"] = "*Please enter your password.";
     }
 
-    // below is for strong password setting
-
-    // if (typeof fields["password"] !== "undefined") {
-    //   if (
-    //     !fields["password"].match(
-    //       /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/
-    //     )
-    //   ) {
-    //     formIsValid = false;
-    //     errors["password"] = "*Please enter secure and strong password.";
-    //   }
-    // }
-
     this.setState({
       errors: errors
     });
@@ -166,13 +154,13 @@ class RegisterForm extends React.Component {
                       <CustomInput
                         labelText="Name..."
                         id="username"
-                        name="name"
                         value={this.state.fields.name}
-                        onChange={this.handleChange}
-                        formControlProps={{
-                          fullWidth: true
-                        }}
+                        // formControlProps={{
+                        //   fullWidth: true
+                        // }}
                         inputProps={{
+                          name: "name",
+                          onChange: this.handleChange,
                           type: "text",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -185,13 +173,13 @@ class RegisterForm extends React.Component {
                       <CustomInput
                         labelText="Email..."
                         id="email"
-                        name="email"
                         value={this.state.fields.email}
-                        onChange={this.handleChange}
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          name: "email",
+                          onChange: this.handleChange,
                           type: "email",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -204,13 +192,13 @@ class RegisterForm extends React.Component {
                       <CustomInput
                         labelText="Password"
                         id="password"
-                        name="password"
                         value={this.state.fields.password}
-                        onChange={this.handleChange}
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          name: "password",
+                          onChange: this.handleChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">
@@ -226,13 +214,13 @@ class RegisterForm extends React.Component {
                       <CustomInput
                         labelText="Confirm Password"
                         id="password"
-                        name="password_confirmation"
                         value={this.state.fields.password_confirmation}
-                        onChange={this.handleChange}
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          name: "password_confirmation",
+                          onChange: this.handleChange,
                           type: "password",
                           endAdornment: (
                             <InputAdornment position="end">

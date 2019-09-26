@@ -28,6 +28,8 @@ const Routes = (
       <Route exact path="/map" component={Mapcluster} />
       <Route exact path="/profile/:id" component={Profile} />
       <Route path={`/profile/:id/:edit`} component={EditProfile} />
+      <Route exact path="/profile/:id" component={Profile} />
+      <Route exact path="/map" component={Conversations} />
     </div>
   </Router>
 );
