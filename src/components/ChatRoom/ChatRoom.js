@@ -6,7 +6,7 @@ import Maximized from "./Maximized";
 import { ThemeProvider, FixedWrapper, purpleTheme } from "@livechat/ui-kit";
 
 const user_id = localStorage.getItem("current_user_id");
-let cable = Cable.createConsumer("http://localhost:3000/cable");
+let cable = Cable.createConsumer("https://dripples.herokuapp.com/cable");
 let theme = {
   ...purpleTheme,
   TextComposer: {

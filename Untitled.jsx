@@ -37,7 +37,7 @@ import CardBody from "../Material/Card/CardBody.jsx";
 import CardFooter from "../Material/Card/CardFooter.jsx";
 
 const Api = require("../../lib/Api.js");
-const SERVER_URL = "http://www.localhost:3000/api/users/";
+const SERVER_URL = "https://dripples.herokuapp.com/api/users/";
 const user_id = localStorage.getItem("current_user_id");
 
 const styles = {

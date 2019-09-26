@@ -70,6 +70,7 @@ class DropSpace extends Component {
   }
 
   saveDripple(title, content, categoryId, newTags) {
+    console.log("saving dripple");
     let user_id = Number(localStorage.getItem("current_user_id"));
     Api.newDripple(title, content, user_id, categoryId).then(response => {
       console.log("new dripple id:", response.data.id);
@@ -187,15 +188,16 @@ class CreateDrop extends Component {
   }
 
   _handleSubmit(event) {
+    const { title, content, categoryId, newTags } = this.state;
+
+    if (title === "" && content === "" && categoryId === 0) {
+      return;
+    }
+    console.log("running this");
     event.preventDefault();
     console.log(this.state.newTags);
 
-    this.props.onSubmit(
-      this.state.title,
-      this.state.content,
-      this.state.categoryId,
-      this.state.newTags
-    );
+    this.props.onSubmit(title, content, categoryId, newTags);
     this.setState({
       title: "",
       content: "",
@@ -231,13 +233,15 @@ class CreateDrop extends Component {
 
   render() {
     return (
-      <FormControl
+      <form
         onSubmit={this._handleSubmit}
         style={{
           borderRadius: "100%",
           margin: "10px",
           padding: "45px",
-          backgroundColor: "aliceblue"
+          backgroundColor: "aliceblue",
+          height: "220px",
+          width: "220px"
         }}
       >
         <TextField
@@ -286,7 +290,7 @@ class CreateDrop extends Component {
 
         <TextField onChange={this._handleTags} />
         <Button type="submit">Save</Button>
-      </FormControl>
+      </form>
     );
   }
 }

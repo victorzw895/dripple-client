@@ -24,8 +24,8 @@ import axios from "axios";
 import SideNavMaterialUI from "../SideNavMaterialUI";
 import image from "../../assets/img/ripplebg.jpg";
 
-const SERVER_URL = "http://localhost:3000/api/users";
-// const SERVER_URL = "https://dripples.herokuapp.com/api/users";
+// const SERVER_URL = "http://localhost:3000/api/users";
+const SERVER_URL = "https://dripples.herokuapp.com/api/users";
 
 class RegisterForm extends React.Component {
   constructor() {
